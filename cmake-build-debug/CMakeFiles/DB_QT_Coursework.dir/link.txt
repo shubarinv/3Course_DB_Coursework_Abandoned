@@ -1,0 +1,3 @@
+C:\Users\vhund\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-1\211.6085.16\bin\cmake\win\bin\cmake.exe -E rm -f CMakeFiles\DB_QT_Coursework.dir/objects.a
+C:\msys64\mingw64\bin\ar.exe cr CMakeFiles\DB_QT_Coursework.dir/objects.a @CMakeFiles\DB_QT_Coursework.dir\objects1.rsp
+C:\msys64\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\DB_QT_Coursework.dir/objects.a -Wl,--no-whole-archive -o ..\DB_QT_Coursework.exe -Wl,--out-implib,libDB_QT_Coursework.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\DB_QT_Coursework.dir\linklibs.rsp
