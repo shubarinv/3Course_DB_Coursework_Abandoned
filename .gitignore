@@ -126,3 +126,4 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 cmake-build-debug/
+*.exe
