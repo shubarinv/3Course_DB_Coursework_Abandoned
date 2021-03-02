@@ -21,6 +21,10 @@ public:
 
         ipAddress_inp = new QLineEdit(this);
         ipAddress_inp->setPlaceholderText("Server IP");
+        auto *v = new QRegExpValidator(this);
+        QRegExp rx("((1{0,1}[0-9]{0,2}|2[0-4]{1,1}[0-9]{1,1}|25[0-5]{1,1})\\.){3,3}(1{0,1}[0-9]{0,2}|2[0-4]{1,1}[0-9]{1,1}|25[0-5]{1,1})");
+        v->setRegExp(rx);
+        ipAddress_inp->setValidator(v);
 
         itemModel = new QStandardItemModel(this);
 
@@ -49,6 +53,7 @@ public:
         connect(removeServer_btn, &QPushButton::clicked, this, [this]() {
             removeServerFromList();
         });
+
     }
     QGridLayout *layout{};
     QStandardItemModel *itemModel;
