@@ -22,9 +22,7 @@ public:
         auto *quit_act = new QAction(tr("&Quit"), this);
         auto *settings_act = new QAction(tr("&Settings"), this);
 
-        topBar_menu = new QMenuBar(this);
-        topBar_menu->setNativeMenuBar(false);
-        QMenu *menu = topBar_menu->addMenu("File");
+        QMenu *menu = menuBar()->addMenu("File");
         menu->addAction(settings_act);
         menu->addAction(quit_act);
 
@@ -34,7 +32,6 @@ public:
         });
         connect(quit_act, &QAction::triggered, app, QApplication::quit);
     }
-    QMenuBar *topBar_menu;
 
 private:
     static void openSettings() {
