@@ -1,15 +1,16 @@
 QMainWindow {
-    background-color: #121212;
+    background-color: #222222;
 }
 
 QPushButton {
     background-color: #1e1e1e;
     border: none;
-    color: #999999 ;
+    color: #FFFFFF ;
+    border-radius: 4px;
 }
 QPushButton:pressed{
     background-color: #222222;
-    color: #999999 ;
+    color: #FFFFFF ;
 }
 QPushButton:disabled{
     background-color: #222222;
@@ -21,10 +22,10 @@ QMenuBar{
     color: #ffffff;
 }
 QMenuBar::item {
-    padding: 1px 4px;
+    padding: 2px 6px;
     border: none;
     background: transparent;
-    border-radius: 4px;
+    text-align:left;
 }
 
 QMenuBar::item:selected { /* when selected using mouse or keyboard */
@@ -42,7 +43,8 @@ QMenuBar::item:pressed {
 QMenu::item {
     background: #434343;
     color: #ffffff;
-    padding: 2px 25px 2px 20px;
+    padding: 2px 25px 2px 5px;
+    text-align:left;
     border: 1px solid transparent; /* reserve space for selection border */
 }
 
@@ -73,4 +75,22 @@ QMenu::indicator {
     width: 13px;
     height: 13px;
 }
+QLineEdit,QListView{
+    background-color: #222222;
+    color: #FFFFFF ;
+}
+QPushButton#add-btn{
+background:#0275d8;padding: 4px 25px 4px 20px;color:#ffffff;
+}
+QPushButton#remove-btn{
+background:#d9534f;padding: 4px 25px 4px 20px;color:#ffffff;
+}
+QPushButton#add-btn:pressed{
+background:#0359a3;padding: 4px 25px 4px 20px;color:#ffffff;
+}
+QPushButton#remove-btn:pressed{
+background:#b54643;padding: 4px 25px 4px 20px;color:#ffffff;
+}
+
+
 

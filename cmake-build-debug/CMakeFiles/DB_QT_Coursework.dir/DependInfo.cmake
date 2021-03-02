@@ -4,10 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/vhund/CLionProjects/DB_QT_Coursework/cmake-build-debug/DB_QT_Coursework_autogen/mocs_compilation.cpp" "C:/Users/vhund/CLionProjects/DB_QT_Coursework/cmake-build-debug/CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.obj"
-  "C:/Users/vhund/CLionProjects/DB_QT_Coursework/main.cpp" "C:/Users/vhund/CLionProjects/DB_QT_Coursework/cmake-build-debug/CMakeFiles/DB_QT_Coursework.dir/main.cpp.obj"
+  "/Users/vhundef/CLionProjects/DB_Coursework/cmake-build-debug/DB_QT_Coursework_autogen/mocs_compilation.cpp" "/Users/vhundef/CLionProjects/DB_Coursework/cmake-build-debug/CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o"
+  "/Users/vhundef/CLionProjects/DB_Coursework/main.cpp" "/Users/vhundef/CLionProjects/DB_Coursework/cmake-build-debug/CMakeFiles/DB_QT_Coursework.dir/main.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
+set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX
@@ -22,11 +22,13 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "."
   "../"
   "DB_QT_Coursework_autogen/include"
-  "C:/msys64/mingw64/include/QtWidgets"
-  "C:/msys64/mingw64/include/QtGui"
-  "C:/msys64/mingw64/include/QtCore"
-  "C:/msys64/mingw64/share/qt5/mkspecs/win32-g++"
-  "C:/msys64/mingw64/include/QtXml"
+  "/Users/vhundef/opt/anaconda3/include/qt"
+  "/Users/vhundef/opt/anaconda3/include/qt/QtWidgets"
+  "/Users/vhundef/opt/anaconda3/include/qt/QtGui"
+  "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
+  "/Users/vhundef/opt/anaconda3/include/qt/QtCore"
+  "/Users/vhundef/opt/anaconda3/./mkspecs/macx-clang"
+  "/Users/vhundef/opt/anaconda3/include/qt/QtXml"
   )
 
 # Targets to which this target links.

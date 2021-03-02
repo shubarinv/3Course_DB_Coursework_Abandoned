@@ -26,20 +26,16 @@ public:
 
         servers_list = new QListView(this);
         servers_list->setModel(itemModel);
-        //this is how you add elements
-        //        auto * test=new QStandardItem("test");
-        //        itemModel->appendRow(test);
-        connect(servers_list, &QListView::clicked, this, [this](const QModelIndex &index) {
-            //removeServerFromList(index);
-        });
 
         addServer_btn = new QPushButton(this);
         addServer_btn->setText("ADD");
-        addServer_btn->setStyleSheet("background:#0275d8;padding: 4px 25px 4px 20px;color:#ffffff;");
+        addServer_btn->setObjectName("add-btn");
+       // addServer_btn->setStyleSheet("background:#0275d8;padding: 4px 25px 4px 20px;color:#ffffff;");
 
         removeServer_btn = new QPushButton(this);
         removeServer_btn->setText("Remove");
-        removeServer_btn->setStyleSheet("background:#0275d8;padding: 4px 25px 4px 20px;color:#ffffff;");
+        removeServer_btn->setObjectName("remove-btn");
+       // removeServer_btn->setStyleSheet("background:#d9534f;padding: 4px 25px 4px 20px;color:#ffffff;");
 
         layout = new QGridLayout(this);
         layout->addWidget(servers_list, 0, 0, 1, 1);
@@ -68,6 +64,7 @@ private:
     }
 
     void addServer() const {
+        if(ipAddress_inp->text().isEmpty()){return;}
         auto *newServer = new QStandardItem(ipAddress_inp->text());
         itemModel->appendRow(newServer);
         ipAddress_inp->clear();

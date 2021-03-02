@@ -19,22 +19,25 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QPair<int, int> screenSize, QApplication *app = nullptr) {
         setFixedSize(screenSize.first / 2, screenSize.second / 2);
-        auto *quit_act = new QAction("Quit", this);
-        auto *settings_act = new QAction("Settings", this);
+        auto *quit_act = new QAction(tr("&Quit"), this);
+        auto *settings_act = new QAction(tr("&Settings"), this);
 
-        file = menuBar()->addMenu("File");
-        file->addAction(settings_act);
-        file->addAction(quit_act);
+        topBar_menu = new QMenuBar(this);
+        topBar_menu->setNativeMenuBar(false);
+        QMenu *menu = topBar_menu->addMenu("File");
+        menu->addAction(settings_act);
+        menu->addAction(quit_act);
 
-        connect(settings_act, &QAction::triggered, app, [this]() {
+
+        connect(settings_act, &QAction::triggered, app, []() {
             openSettings();
         });
         connect(quit_act, &QAction::triggered, app, QApplication::quit);
     }
-    QMenu *file{};
+    QMenuBar *topBar_menu;
 
 private:
-    void openSettings() {
+    static void openSettings() {
         SettingsDialog settings_win;
         settings_win.exec();
     }
