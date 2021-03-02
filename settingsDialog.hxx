@@ -59,7 +59,6 @@ public:
         });
         settings = new QSettings("vh", "DB_Coursework");
         fillServerList(settings->value("db/servers").toStringList());
-        qDebug()<<settings->value("db/servers").toStringList();
     }
     QGridLayout *layout{};
     QStandardItemModel *itemModel;
@@ -73,17 +72,23 @@ public:
 private:
     void closeEvent(QCloseEvent *event) override {
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "Test", "Quit?",
-                                      QMessageBox::Yes | QMessageBox::No);
-        if (reply == QMessageBox::Yes) {
-            qDebug() << "Yes was clicked";
-            saveServerList();
-            event->accept();
-            QDialog::closeEvent(event);
-        } else {
-            qDebug() << "Yes was *not* clicked";
-            event->ignore();
+        QStringList servers_from_list;
+        for (int i = 0; i < itemModel->rowCount(); ++i) {
+            servers_from_list << itemModel->index(i, 0).data().toString();
         }
+        if (settings->value("db/servers").toStringList() != servers_from_list) {
+            reply = QMessageBox::question(this, "Save changes?", "Save changes to server list?", QMessageBox::Yes | QMessageBox::No);
+            if (reply == QMessageBox::Yes) {
+                saveServerList();
+                event->accept();
+                QDialog::closeEvent(event);
+            } else {
+                event->accept();
+                QDialog::closeEvent(event);
+            }
+        }
+        event->accept();
+        QDialog::closeEvent(event);
     }
     void removeServerFromList() const {
         itemModel->removeRow(servers_list->currentIndex().row());
@@ -102,7 +107,7 @@ private:
             itemModel->appendRow(newServer);
         }
     }
-    void saveServerList() {
+    void saveServerList() const {
         QStringList servers_from_list;
         for (int i = 0; i < itemModel->rowCount(); ++i) {
             servers_from_list << itemModel->index(i, 0).data().toString();
