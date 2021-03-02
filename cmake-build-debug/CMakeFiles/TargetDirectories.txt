@@ -1,4 +1,0 @@
-/Users/vhundef/CLionProjects/DB_Coursework/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/vhundef/CLionProjects/DB_Coursework/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/vhundef/CLionProjects/DB_Coursework/cmake-build-debug/CMakeFiles/DB_QT_Coursework.dir
-/Users/vhundef/CLionProjects/DB_Coursework/cmake-build-debug/CMakeFiles/DB_QT_Coursework_autogen.dir
