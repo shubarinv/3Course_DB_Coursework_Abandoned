@@ -67,12 +67,24 @@ QLineEdit
 -
 QListWidget
 -
+QMessageBox
+-
+QDebug
+-
 QPushButton
+-
+QSettings
+-
+QCloseEvent
 -
 QStandardItemModel
 -
 iostream
 -
+
+/Users/vhundef/opt/anaconda3/include/qt/QtCore/QDebug
+qdebug.h
+/Users/vhundef/opt/anaconda3/include/qt/QtCore/qdebug.h
 
 /Users/vhundef/opt/anaconda3/include/qt/QtCore/QFile
 qfile.h
@@ -89,6 +101,10 @@ qobject.h
 /Users/vhundef/opt/anaconda3/include/qt/QtCore/QRect
 qrect.h
 /Users/vhundef/opt/anaconda3/include/qt/QtCore/qrect.h
+
+/Users/vhundef/opt/anaconda3/include/qt/QtCore/QSettings
+qsettings.h
+/Users/vhundef/opt/anaconda3/include/qt/QtCore/qsettings.h
 
 /Users/vhundef/opt/anaconda3/include/qt/QtCore/QSize
 qsize.h
@@ -600,6 +616,18 @@ initializer_list
 iterator
 -
 
+/Users/vhundef/opt/anaconda3/include/qt/QtCore/qsettings.h
+QtCore/qobject.h
+-
+QtCore/qvariant.h
+-
+QtCore/qstring.h
+-
+QtCore/qscopedpointer.h
+-
+ctype.h
+-
+
 /Users/vhundef/opt/anaconda3/include/qt/QtCore/qshareddata.h
 QtCore/qglobal.h
 -
@@ -811,6 +839,10 @@ QtCore/qpoint.h
 /Users/vhundef/opt/anaconda3/include/qt/QtCore/qversiontagging.h
 QtCore/qglobal.h
 -
+
+/Users/vhundef/opt/anaconda3/include/qt/QtGui/QCloseEvent
+qevent.h
+/Users/vhundef/opt/anaconda3/include/qt/QtGui/qevent.h
 
 /Users/vhundef/opt/anaconda3/include/qt/QtGui/QScreen
 qscreen.h
@@ -1276,6 +1308,10 @@ qmenu.h
 qmenubar.h
 /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmenubar.h
 
+/Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMessageBox
+qmessagebox.h
+/Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmessagebox.h
+
 /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QPushButton
 qpushbutton.h
 /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qpushbutton.h
@@ -1496,6 +1532,12 @@ QtWidgets/qaction.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qmenu.h
+-
+
+/Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmessagebox.h
+QtWidgets/qtwidgetsglobal.h
+-
+QtWidgets/qdialog.h
 -
 
 /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qpushbutton.h

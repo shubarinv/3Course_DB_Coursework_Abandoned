@@ -7,6 +7,8 @@ CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o
  /Users/vhundef/CLionProjects/DB_Coursework/cmake-build-debug/DB_QT_Coursework_autogen/EWIEGA46WW/moc_settingsDialog.cpp
  /Users/vhundef/CLionProjects/DB_Coursework/cmake-build-debug/DB_QT_Coursework_autogen/mocs_compilation.cpp
  /Users/vhundef/CLionProjects/DB_Coursework/settingsDialog.hxx
+ /Users/vhundef/opt/anaconda3/include/qt/QtCore/QDebug
+ /Users/vhundef/opt/anaconda3/include/qt/QtCore/QSettings
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qabstractitemmodel.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qalgorithms.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qarraydata.h
@@ -62,6 +64,7 @@ CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qregularexpression.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qscopedpointer.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qset.h
+ /Users/vhundef/opt/anaconda3/include/qt/QtCore/qsettings.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qshareddata.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qsharedpointer.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qsharedpointer_impl.h
@@ -81,6 +84,7 @@ CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qvarlengtharray.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qvector.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qversiontagging.h
+ /Users/vhundef/opt/anaconda3/include/qt/QtGui/QCloseEvent
  /Users/vhundef/opt/anaconda3/include/qt/QtGui/QStandardItemModel
  /Users/vhundef/opt/anaconda3/include/qt/QtGui/qbrush.h
  /Users/vhundef/opt/anaconda3/include/qt/QtGui/qcolor.h
@@ -125,6 +129,7 @@ CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMainWindow
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMenu
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMenuBar
+ /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMessageBox
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QPushButton
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qabstractbutton.h
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qabstractitemdelegate.h
@@ -148,6 +153,7 @@ CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmainwindow.h
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmenu.h
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmenubar.h
+ /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmessagebox.h
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qpushbutton.h
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qrubberband.h
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qsizepolicy.h
@@ -163,10 +169,12 @@ CMakeFiles/DB_QT_Coursework.dir/main.cpp.o
  /Users/vhundef/CLionProjects/DB_Coursework/MainWindow.hxx
  /Users/vhundef/CLionProjects/DB_Coursework/main.cpp
  /Users/vhundef/CLionProjects/DB_Coursework/settingsDialog.hxx
+ /Users/vhundef/opt/anaconda3/include/qt/QtCore/QDebug
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/QFile
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/QList
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/QObject
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/QRect
+ /Users/vhundef/opt/anaconda3/include/qt/QtCore/QSettings
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/QSize
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/QSizeF
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/Qpair
@@ -225,6 +233,7 @@ CMakeFiles/DB_QT_Coursework.dir/main.cpp.o
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qregularexpression.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qscopedpointer.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qset.h
+ /Users/vhundef/opt/anaconda3/include/qt/QtCore/qsettings.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qshareddata.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qsharedpointer.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qsharedpointer_impl.h
@@ -244,6 +253,7 @@ CMakeFiles/DB_QT_Coursework.dir/main.cpp.o
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qvarlengtharray.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qvector.h
  /Users/vhundef/opt/anaconda3/include/qt/QtCore/qversiontagging.h
+ /Users/vhundef/opt/anaconda3/include/qt/QtGui/QCloseEvent
  /Users/vhundef/opt/anaconda3/include/qt/QtGui/QScreen
  /Users/vhundef/opt/anaconda3/include/qt/QtGui/QStandardItemModel
  /Users/vhundef/opt/anaconda3/include/qt/QtGui/QTransform
@@ -291,6 +301,7 @@ CMakeFiles/DB_QT_Coursework.dir/main.cpp.o
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMainWindow
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMenu
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMenuBar
+ /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMessageBox
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QPushButton
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QStyleFactory
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qabstractbutton.h
@@ -315,6 +326,7 @@ CMakeFiles/DB_QT_Coursework.dir/main.cpp.o
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmainwindow.h
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmenu.h
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmenubar.h
+ /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmessagebox.h
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qpushbutton.h
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qrubberband.h
  /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qsizepolicy.h

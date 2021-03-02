@@ -9,7 +9,11 @@
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QMessageBox>
+#include <QDebug>
 #include <QPushButton>
+#include <QSettings>
+#include <QCloseEvent>
 #include <QStandardItemModel>
 #include <iostream>
 class SettingsDialog : public QDialog {
@@ -32,7 +36,7 @@ public:
         servers_list->setModel(itemModel);
 
         addServer_btn = new QPushButton(this);
-        addServer_btn->setText("ADD");
+        addServer_btn->setText("Add");
         addServer_btn->setObjectName("add-btn");
        // addServer_btn->setStyleSheet("background:#0275d8;padding: 4px 25px 4px 20px;color:#ffffff;");
 
@@ -53,6 +57,7 @@ public:
         connect(removeServer_btn, &QPushButton::clicked, this, [this]() {
             removeServerFromList();
         });
+        settings=new QSettings("vh","DB_Coursework");
 
     }
     QGridLayout *layout{};
@@ -61,9 +66,24 @@ public:
     QLineEdit *ipAddress_inp;
     QPushButton *addServer_btn;
     QPushButton *removeServer_btn;
+    QSettings* settings;
 
 
 private:
+       void closeEvent(QCloseEvent *event) override{
+           QMessageBox::StandardButton reply;
+           reply = QMessageBox::question(this, "Test", "Quit?",
+                                         QMessageBox::Yes|QMessageBox::No);
+           if (reply == QMessageBox::Yes) {
+               qDebug() << "Yes was clicked";
+               event->accept();
+               QDialog::closeEvent(event);
+           } else {
+               qDebug() << "Yes was *not* clicked";
+               event->ignore();
+           }
+
+        }
     void removeServerFromList() const {
         itemModel->removeRow(servers_list->currentIndex().row());
     }

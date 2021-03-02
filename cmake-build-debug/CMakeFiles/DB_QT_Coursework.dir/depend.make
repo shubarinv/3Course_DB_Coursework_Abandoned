@@ -6,6 +6,8 @@ CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o:
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: DB_QT_Coursework_autogen/EWIEGA46WW/moc_settingsDialog.cpp
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: DB_QT_Coursework_autogen/mocs_compilation.cpp
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: ../settingsDialog.hxx
+CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/QDebug
+CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/QSettings
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qabstractitemmodel.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qalgorithms.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qarraydata.h
@@ -61,6 +63,7 @@ CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o:
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qregularexpression.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qscopedpointer.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qset.h
+CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qsettings.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qshareddata.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qsharedpointer.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qsharedpointer_impl.h
@@ -80,6 +83,7 @@ CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o:
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qvarlengtharray.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qvector.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qversiontagging.h
+CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtGui/QCloseEvent
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtGui/QStandardItemModel
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtGui/qbrush.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtGui/qcolor.h
@@ -124,6 +128,7 @@ CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o:
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMainWindow
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMenu
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMenuBar
+CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMessageBox
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QPushButton
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qabstractbutton.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qabstractitemdelegate.h
@@ -147,6 +152,7 @@ CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o:
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmainwindow.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmenu.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmenubar.h
+CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmessagebox.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qpushbutton.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qrubberband.h
 CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qsizepolicy.h
@@ -162,10 +168,12 @@ CMakeFiles/DB_QT_Coursework.dir/DB_QT_Coursework_autogen/mocs_compilation.cpp.o:
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: ../MainWindow.hxx
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: ../main.cpp
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: ../settingsDialog.hxx
+CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/QDebug
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/QFile
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/QList
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/QObject
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/QRect
+CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/QSettings
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/QSize
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/QSizeF
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/Qpair
@@ -224,6 +232,7 @@ CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qregularexpression.h
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qscopedpointer.h
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qset.h
+CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qsettings.h
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qshareddata.h
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qsharedpointer.h
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qsharedpointer_impl.h
@@ -243,6 +252,7 @@ CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qvarlengtharray.h
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qvector.h
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtCore/qversiontagging.h
+CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtGui/QCloseEvent
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtGui/QScreen
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtGui/QStandardItemModel
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtGui/QTransform
@@ -290,6 +300,7 @@ CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMainWindow
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMenu
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMenuBar
+CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QMessageBox
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QPushButton
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/QStyleFactory
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qabstractbutton.h
@@ -314,6 +325,7 @@ CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmainwindow.h
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmenu.h
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmenubar.h
+CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qmessagebox.h
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qpushbutton.h
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qrubberband.h
 CMakeFiles/DB_QT_Coursework.dir/main.cpp.o: /Users/vhundef/opt/anaconda3/include/qt/QtWidgets/qsizepolicy.h
