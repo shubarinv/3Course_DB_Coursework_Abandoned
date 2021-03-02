@@ -11,6 +11,7 @@
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QLabel>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QSettings>
@@ -23,47 +24,17 @@ public:
         setModal(true);
         setWindowTitle("Settings");
 
-        ipAddress_inp = new QLineEdit(this);
-        ipAddress_inp->setPlaceholderText("Server IP");
-        auto *v = new QRegExpValidator(this);
-        QRegExp rx("((1{0,1}[0-9]{0,2}|2[0-4]{1,1}[0-9]{1,1}|25[0-5]{1,1})\\.){3,3}(1{0,1}[0-9]{0,2}|2[0-4]{1,1}[0-9]{1,1}|25[0-5]{1,1})");
-        v->setRegExp(rx);
-        ipAddress_inp->setValidator(v);
-
-        itemModel = new QStandardItemModel(this);
-
-        servers_list = new QListView(this);
-        servers_list->setModel(itemModel);
-
-        addServer_btn = new QPushButton(this);
-        addServer_btn->setText("Add");
-        addServer_btn->setObjectName("add-btn");
-        // addServer_btn->setStyleSheet("background:#0275d8;padding: 4px 25px 4px 20px;color:#ffffff;");
-
-        removeServer_btn = new QPushButton(this);
-        removeServer_btn->setText("Remove");
-        removeServer_btn->setObjectName("remove-btn");
-        // removeServer_btn->setStyleSheet("background:#d9534f;padding: 4px 25px 4px 20px;color:#ffffff;");
-
-        layout = new QGridLayout(this);
-        layout->addWidget(servers_list, 0, 0, 1, 1);
-        layout->addWidget(removeServer_btn, 0, 1, 1, 1);
-        layout->addWidget(ipAddress_inp, 1, 0, 1, 1);
-        layout->addWidget(addServer_btn, 1, 1, 1, 1);
-
-        connect(addServer_btn, &QPushButton::clicked, this, [this]() {
-            addServer();
-        });
-        connect(removeServer_btn, &QPushButton::clicked, this, [this]() {
-            removeServerFromList();
-        });
-        settings = new QSettings("vh", "DB_Coursework");
-        fillServerList(settings->value("db/servers").toStringList());
+        constructServerSettingsPage();
     }
     QGridLayout *layout{};
     QStandardItemModel *itemModel;
     QListView *servers_list;
-    QLineEdit *ipAddress_inp;
+    QLineEdit *srvIP_inp;
+    QLineEdit *srvPort_inp;
+    QLineEdit *srvLogin_inp;
+    QLineEdit *srvPass_inp;
+    QLineEdit *srvDB_inp;
+
     QPushButton *addServer_btn;
     QPushButton *removeServer_btn;
     QSettings *settings;
@@ -95,10 +66,10 @@ private:
     }
 
     void addServer() const {
-        if (ipAddress_inp->text().isEmpty()) { return; }
-        auto *newServer = new QStandardItem(ipAddress_inp->text());
+        if (srvIP_inp->text().isEmpty()) { return; }
+        auto *newServer = new QStandardItem(srvIP_inp->text());
         itemModel->appendRow(newServer);
-        ipAddress_inp->clear();
+        srvIP_inp->clear();
     }
 
     void fillServerList(const QStringList &loadedServer_list) const {
@@ -114,6 +85,61 @@ private:
         }
 
         settings->setValue("db/servers", QVariant::fromValue(servers_from_list));
+    }
+    void constructServerSettingsPage(){
+        srvIP_inp = new QLineEdit(this);
+        srvPort_inp=new QLineEdit(this);
+        srvLogin_inp=new QLineEdit(this);
+        srvPass_inp=new QLineEdit(this);
+        srvDB_inp=new QLineEdit(this);
+
+
+        auto *ipValidator = new QRegExpValidator(this);
+        QRegExp ip_regexp("((1{0,1}[0-9]{0,2}|2[0-4]{1,1}[0-9]{1,1}|25[0-5]{1,1})\\.){3,3}(1{0,1}[0-9]{0,2}|2[0-4]{1,1}[0-9]{1,1}|25[0-5]{1,1})");
+        ipValidator->setRegExp(ip_regexp);
+        srvIP_inp->setValidator(ipValidator);
+
+        itemModel = new QStandardItemModel(this);
+
+        servers_list = new QListView(this);
+        servers_list->setModel(itemModel);
+
+        addServer_btn = new QPushButton(this);
+        addServer_btn->setText("Add");
+        addServer_btn->setObjectName("add-btn");
+
+        removeServer_btn = new QPushButton(this);
+        removeServer_btn->setText("Remove");
+        removeServer_btn->setObjectName("remove-btn");
+
+        layout = new QGridLayout(this);
+        layout->addWidget(servers_list, 0, 0, 1, 1);
+        layout->addWidget(removeServer_btn, 0, 1, 1, 1);
+        layout->addWidget(srvIP_inp, 1, 0, 1, 1);
+        layout->addWidget(addServer_btn, 1, 1, 1, 1);
+
+        auto *srvPort_label = new QLabel(this);
+        auto *srvLogin_label = new QLabel(this);
+        auto *srvPass_label = new QLabel(this);
+        auto *srvDB_label = new QLabel(this);
+
+        // inputs
+        layout->addWidget(srvPort_inp, 2, 1, 1, 1);
+        layout->addWidget(srvLogin_inp, 3, 1, 1, 1);
+        layout->addWidget(srvPass_inp, 4, 1, 1, 1);
+        layout->addWidget(srvDB_inp, 5, 1, 1, 1);
+
+        // connections
+        connect(addServer_btn, &QPushButton::clicked, this, [this]() {
+          addServer();
+        });
+        connect(removeServer_btn, &QPushButton::clicked, this, [this]() {
+          removeServerFromList();
+        });
+
+        // settings loading
+        settings = new QSettings("vh", "DB_Coursework");
+        fillServerList(settings->value("db/servers").toStringList());
     }
 };
 
