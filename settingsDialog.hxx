@@ -119,14 +119,25 @@ private:
         layout->addWidget(addServer_btn, 1, 1, 1, 1);
 
         auto *srvPort_label = new QLabel(this);
+        srvPort_label->setText("Port:");
         auto *srvLogin_label = new QLabel(this);
+        srvLogin_label->setText("Login:");
         auto *srvPass_label = new QLabel(this);
+        srvPass_label->setText("Password:");
         auto *srvDB_label = new QLabel(this);
+        srvDB_label->setText("Database:");
 
-        // inputs
+        // inputs and labels
+        layout->addWidget(srvPort_label, 2, 0, 1, 1);
         layout->addWidget(srvPort_inp, 2, 1, 1, 1);
+
+        layout->addWidget(srvLogin_label, 3, 0, 1, 1);
         layout->addWidget(srvLogin_inp, 3, 1, 1, 1);
+
+        layout->addWidget(srvPass_label, 4, 0, 1, 1);
         layout->addWidget(srvPass_inp, 4, 1, 1, 1);
+
+        layout->addWidget(srvDB_label, 5, 0, 1, 1);
         layout->addWidget(srvDB_inp, 5, 1, 1, 1);
 
         // connections
