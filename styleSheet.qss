@@ -76,8 +76,15 @@ QMenu::indicator {
     width: 13px;
     height: 13px;
 }
+QDialog, QMessageBox{
+background-color: #333333;
+color: #ffffff;
+}
+QMessageBox QLabel {
+    color: rgb(200, 200, 200);
+}
 QLineEdit,QListView{
-    background-color: #222222;
+    background-color: #434343;
     color: #FFFFFF ;
 }
 QPushButton#add-btn{
