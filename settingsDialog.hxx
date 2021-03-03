@@ -93,6 +93,8 @@ private:
         srvPass_inp=new QLineEdit(this);
         srvDB_inp=new QLineEdit(this);
 
+        srvPass_inp->setEchoMode(QLineEdit::Password);
+
 
         auto *ipValidator = new QRegExpValidator(this);
         QRegExp ip_regexp("((1{0,1}[0-9]{0,2}|2[0-4]{1,1}[0-9]{1,1}|25[0-5]{1,1})\\.){3,3}(1{0,1}[0-9]{0,2}|2[0-4]{1,1}[0-9]{1,1}|25[0-5]{1,1})");
@@ -113,11 +115,12 @@ private:
         removeServer_btn->setObjectName("remove-btn");
 
         layout = new QGridLayout(this);
-        layout->addWidget(servers_list, 0, 0, 1, 1);
-        layout->addWidget(removeServer_btn, 0, 1, 1, 1);
-        layout->addWidget(srvIP_inp, 1, 0, 1, 1);
-        layout->addWidget(addServer_btn, 1, 1, 1, 1);
+        layout->addWidget(servers_list, 0, 0, 1, 2);
+        layout->addWidget(removeServer_btn, 1, 0, 1, 2);
+        layout->addWidget(addServer_btn, 7, 0, 1, 2);
 
+        auto *srvIP_label = new QLabel(this);
+        srvIP_label->setText("IP:");
         auto *srvPort_label = new QLabel(this);
         srvPort_label->setText("Port:");
         auto *srvLogin_label = new QLabel(this);
@@ -128,17 +131,20 @@ private:
         srvDB_label->setText("Database:");
 
         // inputs and labels
-        layout->addWidget(srvPort_label, 2, 0, 1, 1);
-        layout->addWidget(srvPort_inp, 2, 1, 1, 1);
+        layout->addWidget(srvIP_label, 2, 0, 1, 1);
+        layout->addWidget(srvIP_inp, 2, 1, 1, 1);
 
-        layout->addWidget(srvLogin_label, 3, 0, 1, 1);
-        layout->addWidget(srvLogin_inp, 3, 1, 1, 1);
+        layout->addWidget(srvPort_label, 3, 0, 1, 1);
+        layout->addWidget(srvPort_inp, 3, 1, 1, 1);
 
-        layout->addWidget(srvPass_label, 4, 0, 1, 1);
-        layout->addWidget(srvPass_inp, 4, 1, 1, 1);
+        layout->addWidget(srvLogin_label, 4, 0, 1, 1);
+        layout->addWidget(srvLogin_inp, 4, 1, 1, 1);
 
-        layout->addWidget(srvDB_label, 5, 0, 1, 1);
-        layout->addWidget(srvDB_inp, 5, 1, 1, 1);
+        layout->addWidget(srvPass_label, 5, 0, 1, 1);
+        layout->addWidget(srvPass_inp, 5, 1, 1, 1);
+
+        layout->addWidget(srvDB_label, 6, 0, 1, 1);
+        layout->addWidget(srvDB_inp, 6, 1, 1, 1);
 
         // connections
         connect(addServer_btn, &QPushButton::clicked, this, [this]() {
@@ -148,9 +154,17 @@ private:
           removeServerFromList();
         });
 
+        connect(servers_list, &QListView::clicked, this, [this](const QModelIndex &index) {
+          fillInputFields(index);
+        });
+
         // settings loading
         settings = new QSettings("vh", "DB_Coursework");
         fillServerList(settings->value("db/servers").toStringList());
+    }
+
+    void fillInputFields(const QModelIndex &index){
+       srvIP_inp->setText(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
     }
 };
 
