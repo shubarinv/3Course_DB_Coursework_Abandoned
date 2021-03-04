@@ -9,16 +9,16 @@
 #include <QDebug>
 #include <QDialog>
 #include <QGridLayout>
+#include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
-#include <QLabel>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QSettings>
 #include <QStandardItemModel>
 #include <iostream>
-struct Server{
-    QString host,port,db,user,password;
+struct Server {
+    QString host, port, db, user, password;
 };
 
 class SettingsDialog : public QDialog {
@@ -42,7 +42,7 @@ public:
     QPushButton *addServer_btn;
     QPushButton *removeServer_btn;
     QSettings *settings;
-    QList<Server>servers;
+    QList<Server> servers;
 
 
 private:
@@ -91,12 +91,12 @@ private:
 
         settings->setValue("db/servers", QVariant::fromValue(servers_from_list));
     }
-    void constructServerSettingsPage(){
+    void constructServerSettingsPage() {
         srvIP_inp = new QLineEdit(this);
-        srvPort_inp=new QLineEdit(this);
-        srvLogin_inp=new QLineEdit(this);
-        srvPass_inp=new QLineEdit(this);
-        srvDB_inp=new QLineEdit(this);
+        srvPort_inp = new QLineEdit(this);
+        srvLogin_inp = new QLineEdit(this);
+        srvPass_inp = new QLineEdit(this);
+        srvDB_inp = new QLineEdit(this);
 
         srvPass_inp->setEchoMode(QLineEdit::Password);
 
@@ -114,6 +114,7 @@ private:
         addServer_btn = new QPushButton(this);
         addServer_btn->setText("Add");
         addServer_btn->setObjectName("add-btn");
+        addServer_btn->setDisabled(true);
 
         removeServer_btn = new QPushButton(this);
         removeServer_btn->setText("Remove");
@@ -153,30 +154,55 @@ private:
 
         // connections
         connect(addServer_btn, &QPushButton::clicked, this, [this]() {
-          addServer();
+            addServer();
         });
         connect(removeServer_btn, &QPushButton::clicked, this, [this]() {
-          removeServerFromList();
+            removeServerFromList();
         });
 
         connect(servers_list, &QListView::clicked, this, [this](const QModelIndex &index) {
-          fillInputFields(index);
+            fillInputFields(index);
         });
+
+        connect(srvIP_inp, &QLineEdit::textChanged, this, [this]() {
+            checkFormFill();
+        });
+        connect(srvPort_inp, &QLineEdit::textChanged, this, [this]() {
+            checkFormFill();
+        });
+        connect(srvLogin_inp, &QLineEdit::textChanged, this, [this]() {
+            checkFormFill();
+        });
+        connect(srvPass_inp, &QLineEdit::textChanged, this, [this]() {
+            checkFormFill();
+        });
+        connect(srvDB_inp, &QLineEdit::textChanged, this, [this]() {
+            checkFormFill();
+        });
+
 
         // settings loading
         settings = new QSettings("vh", "DB_Coursework");
         fillServerList(settings->value("db/servers").toStringList());
     }
 
-    void fillInputFields(const QModelIndex &index) const{
-       srvIP_inp->setText(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
+    void fillInputFields(const QModelIndex &index) const {
+        srvIP_inp->setText(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
     }
 
-    static QString constructServerListString(Server *serverData){
-        return serverData->user+"@"+serverData->host+":"+serverData->port+"/"+serverData->db;
+    static QString constructServerListString(Server *serverData) {
+        return serverData->user + "@" + serverData->host + ":" + serverData->port + "/" + serverData->db;
     }
-    void checkFormFill(){
-        
+    void checkFormFill() {
+        if (srvIP_inp->text().isEmpty() ||
+            srvPort_inp->text().isEmpty() ||
+            srvLogin_inp->text().isEmpty() ||
+            srvPass_inp->text().isEmpty() ||
+            srvDB_inp->text().isEmpty()) {
+            addServer_btn->setDisabled(true);
+        } else {
+            addServer_btn->setDisabled(false);
+        }
     }
 };
 

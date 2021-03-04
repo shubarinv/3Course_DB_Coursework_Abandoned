@@ -25,7 +25,7 @@ public:
         QMenu *menu = menuBar()->addMenu("File");
         menu->addAction(settings_act);
         menu->addAction(quit_act);
-menuBar()->setNativeMenuBar(false);
+        menuBar()->setNativeMenuBar(false);
 
         connect(settings_act, &QAction::triggered, app, []() {
             openSettings();
