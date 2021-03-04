@@ -219,6 +219,7 @@ private:
         }
         settings->endArray();
         fillServerList();
+        servers_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
     }
 
     void fillInputFields(const QModelIndex &index) {
