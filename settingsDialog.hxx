@@ -192,8 +192,13 @@ private:
         fillServerList(settings->value("db/servers").toStringList());
     }
 
-    void fillInputFields(const QModelIndex &index) const {
-        srvIP_inp->setText(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
+    void fillInputFields(const QModelIndex &index) {
+        auto srv = getServerFromString(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
+        srvIP_inp->setText(srv->host);
+        srvPort_inp->setText(srv->port);
+        srvLogin_inp->setText(srv->user);
+        srvPass_inp->setText(srv->password);
+        srvDB_inp->setText(srv->db);
     }
 
     static QString constructServerListString(Server *serverData) {
@@ -216,6 +221,14 @@ private:
         srvLogin_inp->clear();
         srvPass_inp->clear();
         srvDB_inp->clear();
+    }
+    Server *getServerFromString(QString serverString) {
+        for (auto &srv : servers) {
+            if (constructServerListString(&srv) == serverString) {
+                return &srv;
+            }
+        }
+        return nullptr;
     }
 };
 
