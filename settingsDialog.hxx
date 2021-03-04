@@ -30,6 +30,25 @@ public:
 
         constructServerSettingsPage();
     }
+    Qlist<Server> getServers() {
+        if (servers.size() != 0) {
+            return servers;
+        } else {
+            int size = settings->beginReadArray("db/servers");
+            for (int i = 0; i < size; ++i) {
+                settings->setArrayIndex(i);
+                Server server;
+                server.host = settings->value("host").toString();
+                server.port = settings->value("port").toString();
+                server.user = settings->value("user").toString();
+                server.password = settings->value("password").toString();
+                server.db = settings->value("db").toString();
+                servers.push_back(server);
+            }
+            settings->endArray();
+            return servers;
+        }
+    }
     QGridLayout *layout{};
     QStandardItemModel *itemModel;
     QListView *servers_list;
