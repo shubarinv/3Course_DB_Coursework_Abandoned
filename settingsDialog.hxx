@@ -83,9 +83,9 @@ private:
         clearInputFields();
     }
 
-    void fillServerList(const QStringList &loadedServer_list) const {
-        for (auto &srv : loadedServer_list) {
-            auto *newServer = new QStandardItem(srv);
+    void fillServerList() {
+        for (auto &srv : servers) {
+            auto *newServer = new QStandardItem(constructServerListString(&srv));
             itemModel->appendRow(newServer);
         }
     }
@@ -94,8 +94,18 @@ private:
         for (int i = 0; i < itemModel->rowCount(); ++i) {
             servers_from_list << itemModel->index(i, 0).data().toString();
         }
-
-        settings->setValue("db/servers", QVariant::fromValue(servers_from_list));
+        settings->beginWriteArray("db/servers");
+        int i = 0;
+        for (auto &srv : servers) {
+            settings->setArrayIndex(i);
+            settings->setValue("host", srv.host);
+            settings->setValue("port", srv.port);
+            settings->setValue("user", srv.user);
+            settings->setValue("password", srv.password);
+            settings->setValue("db", srv.password);
+            i++;
+        }
+        settings->endArray();
     }
     void constructServerSettingsPage() {
         srvIP_inp = new QLineEdit(this);
@@ -188,8 +198,21 @@ private:
 
 
         // settings loading
-        settings = new QSettings("vh", "DB_Coursework");
-        fillServerList(settings->value("db/servers").toStringList());
+        settings = new QSettings("vhundef", "DB_Coursework");
+
+        int size = settings->beginReadArray("db/servers");
+        for (int i = 0; i < size; ++i) {
+            settings->setArrayIndex(i);
+            Server server;
+            server.host = settings->value("host").toString();
+            server.port = settings->value("port").toString();
+            server.user = settings->value("user").toString();
+            server.password = settings->value("password").toString();
+            server.db = settings->value("db").toString();
+            servers.push_back(server);
+        }
+        settings->endArray();
+        fillServerList();
     }
 
     void fillInputFields(const QModelIndex &index) {
