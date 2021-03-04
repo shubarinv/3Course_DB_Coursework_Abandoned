@@ -30,7 +30,7 @@ public:
 
         constructServerSettingsPage();
     }
-    Qlist<Server> getServers() {
+    QList<Server> getServers() {
         if (servers.size() != 0) {
             return servers;
         } else {
@@ -278,6 +278,22 @@ private:
             }
         }
         return nullptr;
+    }
+    static void loadSettings(QList<Server> *serverListToFill) {
+        serverListToFill->clear();
+        auto settings_loc = new QSettings("vhundef", "DB_Coursework");
+        int size = settings_loc->beginReadArray("db/servers");
+        for (int i = 0; i < size; ++i) {
+            settings_loc->setArrayIndex(i);
+            Server server;
+            server.host = settings_loc->value("host").toString();
+            server.port = settings_loc->value("port").toString();
+            server.user = settings_loc->value("user").toString();
+            server.password = settings_loc->value("password").toString();
+            server.db = settings_loc->value("db").toString();
+            serverListToFill->push_back(server);
+        }
+        settings_loc->endArray();
     }
 };
 

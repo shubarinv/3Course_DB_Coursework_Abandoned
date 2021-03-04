@@ -27,7 +27,6 @@ public:
         menu->addAction(settings_act);
         menu->addAction(quit_act);
         menuBar()->setNativeMenuBar(false);
-        settings_win = new SettingsDialog();
         connect(settings_act, &QAction::triggered, app, []() {
             openSettings();
         });
@@ -36,8 +35,8 @@ public:
     }
 
 private:
-    SettingsDialog *settings_win;
     static void openSettings() {
+        SettingsDialog settings_win;
         settings_win.exec();
     }
     QList<Server> servers;
