@@ -17,6 +17,10 @@
 #include <QSettings>
 #include <QStandardItemModel>
 #include <iostream>
+struct Server{
+    QString host,port,db,user,password;
+};
+
 class SettingsDialog : public QDialog {
     Q_OBJECT
 public:
@@ -38,6 +42,7 @@ public:
     QPushButton *addServer_btn;
     QPushButton *removeServer_btn;
     QSettings *settings;
+    QList<Server>servers;
 
 
 private:
@@ -163,8 +168,15 @@ private:
         fillServerList(settings->value("db/servers").toStringList());
     }
 
-    void fillInputFields(const QModelIndex &index){
+    void fillInputFields(const QModelIndex &index) const{
        srvIP_inp->setText(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
+    }
+
+    static QString constructServerListString(Server *serverData){
+        return serverData->user+"@"+serverData->host+":"+serverData->port+"/"+serverData->db;
+    }
+    void checkFormFill(){
+        
     }
 };
 
