@@ -11,6 +11,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QPushButton>
+#include <QStatusBar>
 #include <iostream>
 
 class MainWindow : public QMainWindow {
@@ -31,6 +32,7 @@ public:
             openSettings();
         });
         connect(quit_act, &QAction::triggered, app, QApplication::quit);
+        statusBar()->showMessage(tr("Ready"));
     }
 
 private:

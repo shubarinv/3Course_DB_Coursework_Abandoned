@@ -107,4 +107,7 @@ background:#b54643;padding: 4px 25px 4px 20px;color:#ffffff;
 QLabel {
 color: #ffffff;
 }
+QStatusBar{
+background:#434343;color:#ffffff;
+}
 
