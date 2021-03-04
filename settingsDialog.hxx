@@ -102,7 +102,7 @@ private:
             settings->setValue("port", srv.port);
             settings->setValue("user", srv.user);
             settings->setValue("password", srv.password);
-            settings->setValue("db", srv.password);
+            settings->setValue("db", srv.db);
             i++;
         }
         settings->endArray();
