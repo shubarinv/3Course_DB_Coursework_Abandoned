@@ -71,8 +71,14 @@ private:
     }
 
     void addServer() {
-        if (srvIP_inp->text().isEmpty()) { return; }
-        auto *newServer = new QStandardItem(srvIP_inp->text());
+        Server server;
+        server.host = srvIP_inp->text();
+        server.port = srvPort_inp->text();
+        server.user = srvLogin_inp->text();
+        server.password = srvPass_inp->text();
+        server.db = srvDB_inp->text();
+        servers.push_back(server);
+        auto *newServer = new QStandardItem(constructServerListString(&server));
         itemModel->appendRow(newServer);
         clearInputFields();
     }
