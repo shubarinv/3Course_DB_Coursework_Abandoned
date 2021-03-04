@@ -70,11 +70,11 @@ private:
         itemModel->removeRow(servers_list->currentIndex().row());
     }
 
-    void addServer() const {
+    void addServer() {
         if (srvIP_inp->text().isEmpty()) { return; }
         auto *newServer = new QStandardItem(srvIP_inp->text());
         itemModel->appendRow(newServer);
-        srvIP_inp->clear();
+        clearInputFields();
     }
 
     void fillServerList(const QStringList &loadedServer_list) const {
@@ -203,6 +203,13 @@ private:
         } else {
             addServer_btn->setDisabled(false);
         }
+    }
+    void clearInputFields() {
+        srvIP_inp->clear();
+        srvPort_inp->clear();
+        srvLogin_inp->clear();
+        srvPass_inp->clear();
+        srvDB_inp->clear();
     }
 };
 
