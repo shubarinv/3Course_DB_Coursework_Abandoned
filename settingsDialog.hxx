@@ -52,21 +52,27 @@ private:
         for (int i = 0; i < itemModel->rowCount(); ++i) {
             servers_from_list << itemModel->index(i, 0).data().toString();
         }
-        if (settings->value("db/servers").toStringList() != servers_from_list) {
-            reply = QMessageBox::question(this, "Save changes?", "Save changes to server list?", QMessageBox::Yes | QMessageBox::No);
-            if (reply == QMessageBox::Yes) {
-                saveServerList();
-                event->accept();
-                QDialog::closeEvent(event);
-            } else {
-                event->accept();
-                QDialog::closeEvent(event);
-            }
+        reply = QMessageBox::question(this, "Save changes?", "Save changes to server list?", QMessageBox::Yes | QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+            saveServerList();
+            event->accept();
+            QDialog::closeEvent(event);
+        } else {
+            event->accept();
+            QDialog::closeEvent(event);
         }
         event->accept();
         QDialog::closeEvent(event);
     }
-    void removeServerFromList() const {
+    void removeServerFromList() {
+        int i = 0;
+        for (auto &srv : servers) {
+            if (constructServerListString(&srv) == itemModel->index(servers_list->currentIndex().row(), 0).data().toString()) {
+                break;
+            }
+            i++;
+        }
+        servers.removeAt(i);
         itemModel->removeRow(servers_list->currentIndex().row());
     }
 
