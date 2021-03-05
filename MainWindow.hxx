@@ -32,6 +32,12 @@ public:
         });
         connect(quit_act, &QAction::triggered, app, QApplication::quit);
         statusBar()->showMessage(tr("Ready"));
+        SettingsDialog::loadServers(&servers);
+        if (servers.isEmpty()) {
+            statusBar()->showMessage(tr("No servers defined! Please open settings(FIle->Settings)."));
+        } else {
+            statusBar()->showMessage(tr("Server list loaded; Will now try to connect"));
+        }
     }
 
 private:

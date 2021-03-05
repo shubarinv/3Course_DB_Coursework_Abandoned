@@ -23,7 +23,26 @@ struct Server {
 
 class SettingsDialog : public QDialog {
     Q_OBJECT
+
+
 public:
+    static void loadServers(QList<Server> *serverListToFill) {
+        serverListToFill->clear();
+        auto settings_loc = new QSettings("vhundef", "DB_Coursework");
+        int size = settings_loc->beginReadArray("db/servers");
+        for (int i = 0; i < size; ++i) {
+            settings_loc->setArrayIndex(i);
+            Server server;
+            server.host = settings_loc->value("host").toString();
+            server.port = settings_loc->value("port").toString();
+            server.user = settings_loc->value("user").toString();
+            server.password = settings_loc->value("password").toString();
+            server.db = settings_loc->value("db").toString();
+            serverListToFill->push_back(server);
+        }
+        settings_loc->endArray();
+    }
+
     SettingsDialog() {
         setModal(true);
         setWindowTitle("Settings");
@@ -50,17 +69,17 @@ public:
         }
     }
     QGridLayout *layout{};
-    QStandardItemModel *itemModel;
-    QListView *servers_list;
-    QLineEdit *srvIP_inp;
-    QLineEdit *srvPort_inp;
-    QLineEdit *srvLogin_inp;
-    QLineEdit *srvPass_inp;
-    QLineEdit *srvDB_inp;
+    QStandardItemModel *itemModel{};
+    QListView *servers_list{};
+    QLineEdit *srvIP_inp{};
+    QLineEdit *srvPort_inp{};
+    QLineEdit *srvLogin_inp{};
+    QLineEdit *srvPass_inp{};
+    QLineEdit *srvDB_inp{};
 
-    QPushButton *addServer_btn;
-    QPushButton *removeServer_btn;
-    QSettings *settings;
+    QPushButton *addServer_btn{};
+    QPushButton *removeServer_btn{};
+    QSettings *settings{};
     QList<Server> servers;
 
 
@@ -278,22 +297,6 @@ private:
             }
         }
         return nullptr;
-    }
-    static void loadSettings(QList<Server> *serverListToFill) {
-        serverListToFill->clear();
-        auto settings_loc = new QSettings("vhundef", "DB_Coursework");
-        int size = settings_loc->beginReadArray("db/servers");
-        for (int i = 0; i < size; ++i) {
-            settings_loc->setArrayIndex(i);
-            Server server;
-            server.host = settings_loc->value("host").toString();
-            server.port = settings_loc->value("port").toString();
-            server.user = settings_loc->value("user").toString();
-            server.password = settings_loc->value("password").toString();
-            server.db = settings_loc->value("db").toString();
-            serverListToFill->push_back(server);
-        }
-        settings_loc->endArray();
     }
 };
 
