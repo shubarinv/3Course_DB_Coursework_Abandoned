@@ -13,6 +13,7 @@
 #include <QPushButton>
 #include <QStatusBar>
 #include <iostream>
+#include <pqxx/connection>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT;
@@ -37,6 +38,9 @@ public:
             statusBar()->showMessage(tr("No servers defined! Please open settings(FIle->Settings)."));
         } else {
             statusBar()->showMessage(tr("Server list loaded; Will now try to connect"));
+            for (auto &srv : servers) {
+                tryConnectingToServer(constructConnectionString(&srv));
+            }
         }
     }
 
@@ -46,6 +50,18 @@ private:
         settings_win.exec();
     }
     QList<Server> servers;
+    static QString constructConnectionString(Server *server) {
+        return "host= " + server->host + " user=" + server->user + " port= " + server->port + " dbname= " + server->db + " password= " + server->password;
+    }
+    static bool tryConnectingToServer(const QString &connectString) {
+        try {
+            auto conn = new pqxx::connection(connectString.toStdString());
+        } catch (const std::exception &e) {
+            std::cerr << e.what() << std::endl;
+            return false;
+        }
+        return true;
+    }
 };
 
 

@@ -8,8 +8,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt5 COMPONENTS Widgets Xml Core Sql REQUIRED)
+find_package(Qt5 COMPONENTS Widgets Xml Core REQUIRED)
+add_subdirectory(Libs/pqxx)
+include_directories(Libs/pqxx/include)
 
 add_executable(${PROJECT_NAME} main.cpp MainWindow.hxx settingsDialog.hxx)
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Xml Qt5::Core Qt5::Sql)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Xml Qt5::Core pqxx)
