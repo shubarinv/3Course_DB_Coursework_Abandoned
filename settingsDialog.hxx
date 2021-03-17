@@ -25,7 +25,11 @@ class SettingsDialog : public QDialog {
     Q_OBJECT
 
 
+
 public:
+    static QString constructServerListString(Server *serverData) {
+        return serverData->user + "@" + serverData->host + ":" + serverData->port + "/" + serverData->db;
+    }
     static void loadServers(QList<Server> *serverListToFill) {
         serverListToFill->clear();
         auto settings_loc = new QSettings("vhundef", "DB_Coursework");
@@ -269,9 +273,6 @@ private:
         srvDB_inp->setText(srv->db);
     }
 
-    static QString constructServerListString(Server *serverData) {
-        return serverData->user + "@" + serverData->host + ":" + serverData->port + "/" + serverData->db;
-    }
     void checkFormFill() {
         if (srvIP_inp->text().isEmpty() ||
             srvPort_inp->text().isEmpty() ||
@@ -283,14 +284,14 @@ private:
             addServer_btn->setDisabled(false);
         }
     }
-    void clearInputFields() {
+    void clearInputFields() const {
         srvIP_inp->clear();
         srvPort_inp->clear();
         srvLogin_inp->clear();
         srvPass_inp->clear();
         srvDB_inp->clear();
     }
-    Server *getServerFromString(QString serverString) {
+    Server *getServerFromString(const QString& serverString) {
         for (auto &srv : servers) {
             if (constructServerListString(&srv) == serverString) {
                 return &srv;
