@@ -25,7 +25,6 @@ class SettingsDialog : public QDialog {
     Q_OBJECT
 
 
-
 public:
     static QString constructServerListString(Server *serverData) {
         return serverData->user + "@" + serverData->host + ":" + serverData->port + "/" + serverData->db;
@@ -276,7 +275,7 @@ private:
         srvDB_inp->setText(srv->db);
     }
 
-    void checkFormFill() {
+    void checkFormFill() const {
         if (srvHost_inp->text().isEmpty() ||
             srvPort_inp->text().isEmpty() ||
             srvLogin_inp->text().isEmpty() ||
@@ -286,6 +285,16 @@ private:
         } else {
             addServer_btn->setDisabled(false);
         }
+        if (!srvHost_inp->text().isEmpty() ||
+            !srvPort_inp->text().isEmpty() ||
+            !srvLogin_inp->text().isEmpty() ||
+            !srvPass_inp->text().isEmpty() ||
+            !srvDB_inp->text().isEmpty()) {
+            clearData_btn->setDisabled(false);
+        }
+        else{
+            clearData_btn->setDisabled(true);
+        }
     }
     void clearInputFields() const {
         srvHost_inp->clear();
@@ -294,7 +303,7 @@ private:
         srvPass_inp->clear();
         srvDB_inp->clear();
     }
-    Server *getServerFromString(const QString& serverString) {
+    Server *getServerFromString(const QString &serverString) {
         for (auto &srv : servers) {
             if (constructServerListString(&srv) == serverString) {
                 return &srv;

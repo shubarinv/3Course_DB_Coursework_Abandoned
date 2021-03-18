@@ -111,10 +111,10 @@ QPushButton#remove-btn:disabled{
     padding: 4px 25px 4px 20px;
 }
 QPushButton#clear-btn{
-background:#f0ad4e;padding: 4px 25px 4px 20px;color:#ffffff;
+background:#cc9343;padding: 4px 25px 4px 20px;color:#ffffff;
 }
 QPushButton#clear-btn:pressed{
-background:#cc9343;padding: 4px 25px 4px 20px;color:#ffffff;
+background:#ad7d39;padding: 4px 25px 4px 20px;color:#ffffff;
 }
 QPushButton#clear-btn:disabled{
     background-color: #222222;
