@@ -32,12 +32,12 @@ public:
         menu->addAction(settings_act);
         menu->addAction(quit_act);
         menuBar()->setNativeMenuBar(false);
+        SettingsDialog::loadServers(servers);
         connect(settings_act, &QAction::triggered, app, []() {
             openSettings();
         });
         connect(quit_act, &QAction::triggered, app, QApplication::quit);
         statusBar()->showMessage(tr("Ready"));
-        SettingsDialog::loadServers(&servers);
         if (servers.isEmpty()) {
             statusBar()->showMessage(tr("No servers defined! Please open settings(FIle->Settings)."));
         } else {

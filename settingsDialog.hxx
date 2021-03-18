@@ -29,8 +29,8 @@ public:
     static QString constructServerListString(Server *serverData) {
         return serverData->user + "@" + serverData->host + ":" + serverData->port + "/" + serverData->db;
     }
-    static void loadServers(QList<Server> *serverListToFill) {
-        serverListToFill->clear();
+    static void loadServers(QList<Server> &serverListToFill) {
+        serverListToFill.clear();
         auto settings_loc = new QSettings("vhundef", "DB_Coursework");
         int size = settings_loc->beginReadArray("db/servers");
         for (int i = 0; i < size; ++i) {
@@ -41,7 +41,7 @@ public:
             server.user = settings_loc->value("user").toString();
             server.password = settings_loc->value("password").toString();
             server.db = settings_loc->value("db").toString();
-            serverListToFill->push_back(server);
+            serverListToFill.push_back(server);
         }
         settings_loc->endArray();
     }
@@ -56,18 +56,7 @@ public:
         if (!servers.empty()) {
             return servers;
         } else {
-            int size = settings->beginReadArray("db/servers");
-            for (int i = 0; i < size; ++i) {
-                settings->setArrayIndex(i);
-                Server server;
-                server.host = settings->value("host").toString();
-                server.port = settings->value("port").toString();
-                server.user = settings->value("user").toString();
-                server.password = settings->value("password").toString();
-                server.db = settings->value("db").toString();
-                servers.push_back(server);
-            }
-            settings->endArray();
+            SettingsDialog::loadServers(servers);
             return servers;
         }
     }
@@ -225,11 +214,12 @@ private:
         connect(removeServer_btn, &QPushButton::clicked, this, [this]() {
             removeServerFromList();
         });
-
+        connect(clearData_btn, &QPushButton::clicked, this, [this]() {
+            clearInputFields();
+        });
         connect(servers_list, &QListView::clicked, this, [this](const QModelIndex &index) {
             fillInputFields(index);
         });
-
         connect(srvHost_inp, &QLineEdit::textChanged, this, [this]() {
             checkFormFill();
         });
@@ -247,21 +237,7 @@ private:
         });
 
 
-        // settings loading
-        settings = new QSettings("vhundef", "DB_Coursework");
-
-        int size = settings->beginReadArray("db/servers");
-        for (int i = 0; i < size; ++i) {
-            settings->setArrayIndex(i);
-            Server server;
-            server.host = settings->value("host").toString();
-            server.port = settings->value("port").toString();
-            server.user = settings->value("user").toString();
-            server.password = settings->value("password").toString();
-            server.db = settings->value("db").toString();
-            servers.push_back(server);
-        }
-        settings->endArray();
+        getServers();
         fillServerList();
         servers_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
     }
@@ -291,11 +267,11 @@ private:
             !srvPass_inp->text().isEmpty() ||
             !srvDB_inp->text().isEmpty()) {
             clearData_btn->setDisabled(false);
-        }
-        else{
+        } else {
             clearData_btn->setDisabled(true);
         }
     }
+
     void clearInputFields() const {
         srvHost_inp->clear();
         srvPort_inp->clear();
@@ -303,6 +279,7 @@ private:
         srvPass_inp->clear();
         srvDB_inp->clear();
     }
+
     Server *getServerFromString(const QString &serverString) {
         for (auto &srv : servers) {
             if (constructServerListString(&srv) == serverString) {
