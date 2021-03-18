@@ -54,7 +54,7 @@ public:
         constructServerSettingsPage();
     }
     QList<Server> getServers() {
-        if (servers.size() != 0) {
+        if (!servers.empty()) {
             return servers;
         } else {
             int size = settings->beginReadArray("db/servers");
@@ -75,7 +75,7 @@ public:
     QGridLayout *layout{};
     QStandardItemModel *itemModel{};
     QListView *servers_list{};
-    QLineEdit *srvIP_inp{};
+    QLineEdit *srvHost_inp{};
     QLineEdit *srvPort_inp{};
     QLineEdit *srvLogin_inp{};
     QLineEdit *srvPass_inp{};
@@ -83,6 +83,7 @@ public:
 
     QPushButton *addServer_btn{};
     QPushButton *removeServer_btn{};
+    QPushButton *clearData_btn{};
     QSettings *settings{};
     QList<Server> servers;
 
@@ -120,7 +121,7 @@ private:
 
     void addServer() {
         Server server;
-        server.host = srvIP_inp->text();
+        server.host = srvHost_inp->text();
         server.port = srvPort_inp->text();
         server.user = srvLogin_inp->text();
         server.password = srvPass_inp->text();
@@ -156,19 +157,13 @@ private:
         settings->endArray();
     }
     void constructServerSettingsPage() {
-        srvIP_inp = new QLineEdit(this);
+        srvHost_inp = new QLineEdit(this);
         srvPort_inp = new QLineEdit(this);
         srvLogin_inp = new QLineEdit(this);
         srvPass_inp = new QLineEdit(this);
         srvDB_inp = new QLineEdit(this);
 
         srvPass_inp->setEchoMode(QLineEdit::Password);
-
-
-        auto *ipValidator = new QRegExpValidator(this);
-        QRegExp ip_regexp("((1{0,1}[0-9]{0,2}|2[0-4]{1,1}[0-9]{1,1}|25[0-5]{1,1})\\.){3,3}(1{0,1}[0-9]{0,2}|2[0-4]{1,1}[0-9]{1,1}|25[0-5]{1,1})");
-        ipValidator->setRegExp(ip_regexp);
-        srvIP_inp->setValidator(ipValidator);
 
         itemModel = new QStandardItemModel(this);
 
@@ -180,17 +175,25 @@ private:
         addServer_btn->setObjectName("add-btn");
         addServer_btn->setDisabled(true);
 
+        clearData_btn = new QPushButton(this);
+        clearData_btn->setText("Clear");
+        clearData_btn->setObjectName("clear-btn");
+        clearData_btn->setDisabled(true);
+
         removeServer_btn = new QPushButton(this);
         removeServer_btn->setText("Remove");
         removeServer_btn->setObjectName("remove-btn");
+        removeServer_btn->setDisabled(true);
 
         layout = new QGridLayout(this);
         layout->addWidget(servers_list, 0, 0, 1, 2);
         layout->addWidget(removeServer_btn, 1, 0, 1, 2);
-        layout->addWidget(addServer_btn, 7, 0, 1, 2);
+        layout->addWidget(clearData_btn, 7, 0, 1, 1);
+        layout->addWidget(addServer_btn, 7, 1, 1, 1);
 
-        auto *srvIP_label = new QLabel(this);
-        srvIP_label->setText("IP:");
+
+        auto *srvHost_label = new QLabel(this);
+        srvHost_label->setText("Host:");
         auto *srvPort_label = new QLabel(this);
         srvPort_label->setText("Port:");
         auto *srvLogin_label = new QLabel(this);
@@ -201,8 +204,8 @@ private:
         srvDB_label->setText("Database:");
 
         // inputs and labels
-        layout->addWidget(srvIP_label, 2, 0, 1, 1);
-        layout->addWidget(srvIP_inp, 2, 1, 1, 1);
+        layout->addWidget(srvHost_label, 2, 0, 1, 1);
+        layout->addWidget(srvHost_inp, 2, 1, 1, 1);
 
         layout->addWidget(srvPort_label, 3, 0, 1, 1);
         layout->addWidget(srvPort_inp, 3, 1, 1, 1);
@@ -228,7 +231,7 @@ private:
             fillInputFields(index);
         });
 
-        connect(srvIP_inp, &QLineEdit::textChanged, this, [this]() {
+        connect(srvHost_inp, &QLineEdit::textChanged, this, [this]() {
             checkFormFill();
         });
         connect(srvPort_inp, &QLineEdit::textChanged, this, [this]() {
@@ -266,7 +269,7 @@ private:
 
     void fillInputFields(const QModelIndex &index) {
         auto srv = getServerFromString(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
-        srvIP_inp->setText(srv->host);
+        srvHost_inp->setText(srv->host);
         srvPort_inp->setText(srv->port);
         srvLogin_inp->setText(srv->user);
         srvPass_inp->setText(srv->password);
@@ -274,7 +277,7 @@ private:
     }
 
     void checkFormFill() {
-        if (srvIP_inp->text().isEmpty() ||
+        if (srvHost_inp->text().isEmpty() ||
             srvPort_inp->text().isEmpty() ||
             srvLogin_inp->text().isEmpty() ||
             srvPass_inp->text().isEmpty() ||
@@ -285,7 +288,7 @@ private:
         }
     }
     void clearInputFields() const {
-        srvIP_inp->clear();
+        srvHost_inp->clear();
         srvPort_inp->clear();
         srvLogin_inp->clear();
         srvPass_inp->clear();
