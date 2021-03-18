@@ -33,7 +33,7 @@ public:
         menu->addAction(quit_act);
         menuBar()->setNativeMenuBar(false);
         SettingsDialog::loadServers(servers);
-        connect(settings_act, &QAction::triggered, app, []() {
+        connect(settings_act, &QAction::triggered, app, [this]() {
             openSettings();
         });
         connect(quit_act, &QAction::triggered, app, QApplication::quit);
@@ -45,11 +45,21 @@ public:
             setupConnections();
         }
     }
+    void terminateConnections() {
+        spdlog::info("Terminating active connections");
+        for (auto &connection : active_connections) {
+            auto tmp = std::async(std::launch::async, terminateConnection, &connection);
+        }
+        active_connections.clear();
+    }
 
 private:
-    static void openSettings() {
+    void openSettings() {
         SettingsDialog settings_win;
         settings_win.exec();
+        servers = settings_win.getServers();
+        terminateConnections();
+        setupConnections();
     }
 
     QList<Server> servers;
@@ -80,6 +90,17 @@ private:
         for (auto &srv : servers) {
             spdlog::info("Trying: " + SettingsDialog::constructServerListString(&srv).toStdString());
             active_connections.push_back(std::async(std::launch::async, tryConnectingToServer, constructConnectionString(srv)));
+        }
+    }
+
+    static void terminateConnection(std::future<pqxx::connection *> *connection) {
+        if (connection->wait_for(std::chrono::seconds(0)) != std::future_status::ready) {
+            spdlog::info("Awaiting connection");
+            connection->wait();
+        }
+        spdlog::info("closing connection");
+        if (connection->get() != nullptr) {
+            connection->get()->close();
         }
     }
 };

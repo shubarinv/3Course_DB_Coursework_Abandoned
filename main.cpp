@@ -16,7 +16,9 @@ int main(int argc, char *argv[]) {
     app.setStyleSheet(readStyleSheetFromFile("styleSheet.qss"));
     MainWindow mainWindow(getScreenSize(), &app);
     mainWindow.show();
-    return QApplication::exec();
+    QApplication::exec();
+    mainWindow.terminateConnections();
+    return 0;
 }
 
 
