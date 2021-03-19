@@ -60,19 +60,19 @@ public:
             return servers;
         }
     }
-    QGridLayout *layout{};
-    QStandardItemModel *itemModel{};
-    QListView *servers_list{};
-    QLineEdit *srvHost_inp{};
-    QLineEdit *srvPort_inp{};
-    QLineEdit *srvLogin_inp{};
-    QLineEdit *srvPass_inp{};
-    QLineEdit *srvDB_inp{};
+    std::unique_ptr<QGridLayout> layout;
+    std::unique_ptr<QStandardItemModel> itemModel{};
+    std::unique_ptr<QListView> servers_list{};
+    std::unique_ptr<QLineEdit> srvHost_inp{};
+    std::unique_ptr<QLineEdit> srvPort_inp{};
+    std::unique_ptr<QLineEdit> srvLogin_inp{};
+    std::unique_ptr<QLineEdit> srvPass_inp{};
+    std::unique_ptr<QLineEdit> srvDB_inp{};
 
-    QPushButton *addServer_btn{};
-    QPushButton *removeServer_btn{};
-    QPushButton *clearData_btn{};
-    QSettings *settings{};
+    std::unique_ptr<QPushButton> addServer_btn{};
+    std::unique_ptr<QPushButton> removeServer_btn{};
+    std::unique_ptr<QPushButton> clearData_btn{};
+    std::unique_ptr<QSettings> settings{};
     QList<Server> servers;
 
 
@@ -146,39 +146,39 @@ private:
         settings->endArray();
     }
     void constructServerSettingsPage() {
-        srvHost_inp = new QLineEdit(this);
-        srvPort_inp = new QLineEdit(this);
-        srvLogin_inp = new QLineEdit(this);
-        srvPass_inp = new QLineEdit(this);
-        srvDB_inp = new QLineEdit(this);
+        srvHost_inp = std::make_unique<QLineEdit>(this);
+        srvPort_inp = std::make_unique<QLineEdit>(this);
+        srvLogin_inp = std::make_unique<QLineEdit>(this);
+        srvPass_inp = std::make_unique<QLineEdit>(this);
+        srvDB_inp = std::make_unique<QLineEdit>(this);
 
         srvPass_inp->setEchoMode(QLineEdit::Password);
 
-        itemModel = new QStandardItemModel(this);
+        itemModel = std::make_unique<QStandardItemModel>(this);
 
-        servers_list = new QListView(this);
-        servers_list->setModel(itemModel);
+        servers_list = std::make_unique<QListView>(this);
+        servers_list->setModel(itemModel.get());
 
-        addServer_btn = new QPushButton(this);
+        addServer_btn = std::make_unique<QPushButton>(this);
         addServer_btn->setText("Add");
         addServer_btn->setObjectName("add-btn");
         addServer_btn->setDisabled(true);
 
-        clearData_btn = new QPushButton(this);
+        clearData_btn = std::make_unique<QPushButton>(this);
         clearData_btn->setText("Clear");
         clearData_btn->setObjectName("clear-btn");
         clearData_btn->setDisabled(true);
 
-        removeServer_btn = new QPushButton(this);
+        removeServer_btn = std::make_unique<QPushButton>(this);
         removeServer_btn->setText("Remove");
         removeServer_btn->setObjectName("remove-btn");
         removeServer_btn->setDisabled(true);
 
-        layout = new QGridLayout(this);
-        layout->addWidget(servers_list, 0, 0, 1, 2);
-        layout->addWidget(removeServer_btn, 1, 0, 1, 2);
-        layout->addWidget(clearData_btn, 7, 0, 1, 1);
-        layout->addWidget(addServer_btn, 7, 1, 1, 1);
+        layout = std::make_unique<QGridLayout>(this);
+        layout->addWidget(servers_list.get(), 0, 0, 1, 2);
+        layout->addWidget(removeServer_btn.get(), 1, 0, 1, 2);
+        layout->addWidget(clearData_btn.get(), 7, 0, 1, 1);
+        layout->addWidget(addServer_btn.get(), 7, 1, 1, 1);
 
 
         auto *srvHost_label = new QLabel(this);
@@ -194,46 +194,46 @@ private:
 
         // inputs and labels
         layout->addWidget(srvHost_label, 2, 0, 1, 1);
-        layout->addWidget(srvHost_inp, 2, 1, 1, 1);
+        layout->addWidget(srvHost_inp.get(), 2, 1, 1, 1);
 
         layout->addWidget(srvPort_label, 3, 0, 1, 1);
-        layout->addWidget(srvPort_inp, 3, 1, 1, 1);
+        layout->addWidget(srvPort_inp.get(), 3, 1, 1, 1);
 
         layout->addWidget(srvLogin_label, 4, 0, 1, 1);
-        layout->addWidget(srvLogin_inp, 4, 1, 1, 1);
+        layout->addWidget(srvLogin_inp.get(), 4, 1, 1, 1);
 
         layout->addWidget(srvPass_label, 5, 0, 1, 1);
-        layout->addWidget(srvPass_inp, 5, 1, 1, 1);
+        layout->addWidget(srvPass_inp.get(), 5, 1, 1, 1);
 
         layout->addWidget(srvDB_label, 6, 0, 1, 1);
-        layout->addWidget(srvDB_inp, 6, 1, 1, 1);
+        layout->addWidget(srvDB_inp.get(), 6, 1, 1, 1);
 
         // connections
-        connect(addServer_btn, &QPushButton::clicked, this, [this]() {
+        connect(addServer_btn.get(), &QPushButton::clicked, this, [this]() {
             addServer();
         });
-        connect(removeServer_btn, &QPushButton::clicked, this, [this]() {
+        connect(removeServer_btn.get(), &QPushButton::clicked, this, [this]() {
             removeServerFromList();
         });
-        connect(clearData_btn, &QPushButton::clicked, this, [this]() {
+        connect(clearData_btn.get(), &QPushButton::clicked, this, [this]() {
             clearInputFields();
         });
-        connect(servers_list, &QListView::clicked, this, [this](const QModelIndex &index) {
+        connect(servers_list.get(), &QListView::clicked, this, [this](const QModelIndex &index) {
             fillInputFields(index);
         });
-        connect(srvHost_inp, &QLineEdit::textChanged, this, [this]() {
+        connect(srvHost_inp.get(), &QLineEdit::textChanged, this, [this]() {
             checkFormFill();
         });
-        connect(srvPort_inp, &QLineEdit::textChanged, this, [this]() {
+        connect(srvPort_inp.get(), &QLineEdit::textChanged, this, [this]() {
             checkFormFill();
         });
-        connect(srvLogin_inp, &QLineEdit::textChanged, this, [this]() {
+        connect(srvLogin_inp.get(), &QLineEdit::textChanged, this, [this]() {
             checkFormFill();
         });
-        connect(srvPass_inp, &QLineEdit::textChanged, this, [this]() {
+        connect(srvPass_inp.get(), &QLineEdit::textChanged, this, [this]() {
             checkFormFill();
         });
-        connect(srvDB_inp, &QLineEdit::textChanged, this, [this]() {
+        connect(srvDB_inp.get(), &QLineEdit::textChanged, this, [this]() {
             checkFormFill();
         });
 
