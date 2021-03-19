@@ -66,7 +66,7 @@ private:
     std::list<std::future<pqxx::connection *>> active_connections;
 
     static QString constructConnectionString(Server &server) {
-        return "host= " + server.host + " user=" + server.user + " port= " + server.port + " dbname= " + server.db + " password= " + server.password + "connect_timeout=4";
+        return "host= " + server.host + " user=" + server.user + " port= " + server.port + " dbname= " + server.db + " password= " + server.password + " connect_timeout= 4";
     }
 
     static pqxx::connection *tryConnectingToServer(const QString &connectString) {
