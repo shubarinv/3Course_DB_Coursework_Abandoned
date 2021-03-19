@@ -105,6 +105,7 @@ private:
         }
         servers.removeAt(i);
         itemModel->removeRow(servers_list->currentIndex().row());
+        removeServer_btn->setDisabled(true);
     }
 
     void addServer() {
@@ -249,6 +250,7 @@ private:
         srvLogin_inp->setText(srv->user);
         srvPass_inp->setText(srv->password);
         srvDB_inp->setText(srv->db);
+        removeServer_btn->setEnabled(true);
     }
 
     void checkFormFill() const {
