@@ -88,7 +88,7 @@ private:
     void setupConnections() {
         spdlog::info("Begin setting up connections to databases");
         for (auto &srv : servers) {
-            spdlog::info("Trying: " + SettingsDialog::constructServerListString(&srv).toStdString());
+            spdlog::info("Trying: " + SettingsDialog::constructServerListString(srv).toStdString());
             active_connections.push_back(std::async(std::launch::async, tryConnectingToServer, constructConnectionString(srv)));
         }
     }

@@ -26,8 +26,8 @@ class SettingsDialog : public QDialog {
 
 
 public:
-    static QString constructServerListString(Server *serverData) {
-        return serverData->user + "@" + serverData->host + ":" + serverData->port + "/" + serverData->db;
+    static QString constructServerListString(Server &serverData) {
+        return serverData.user + "@" + serverData.host + ":" + serverData.port + "/" + serverData.db;
     }
     static void loadServers(QList<Server> &serverListToFill) {
         serverListToFill.clear();
@@ -98,7 +98,7 @@ private:
     void removeServerFromList() {
         int i = 0;
         for (auto &srv : servers) {
-            if (constructServerListString(&srv) == itemModel->index(servers_list->currentIndex().row(), 0).data().toString()) {
+            if (constructServerListString(srv) == itemModel->index(servers_list->currentIndex().row(), 0).data().toString()) {
                 break;
             }
             i++;
@@ -116,14 +116,14 @@ private:
         server.password = srvPass_inp->text();
         server.db = srvDB_inp->text();
         servers.push_back(server);
-        auto *newServer = new QStandardItem(constructServerListString(&server));
+        auto *newServer = new QStandardItem(constructServerListString(server));
         itemModel->appendRow(newServer);
         clearInputFields();
     }
 
     void fillServerList() {
         for (auto &srv : servers) {
-            auto *newServer = new QStandardItem(constructServerListString(&srv));
+            auto *newServer = new QStandardItem(constructServerListString(srv));
             itemModel->appendRow(newServer);
         }
     }
@@ -284,7 +284,7 @@ private:
 
     Server *getServerFromString(const QString &serverString) {
         for (auto &srv : servers) {
-            if (constructServerListString(&srv) == serverString) {
+            if (constructServerListString(srv) == serverString) {
                 return &srv;
             }
         }
