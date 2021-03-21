@@ -26,9 +26,18 @@ class SettingsDialog : public QDialog {
 
 
 public:
+    /**
+     * @brief Constructs string that is used in Server list
+     * @param serverData pointer to Server(instance) that contains data about connection
+     * @return string in format  [user]@[host]:[port]/[database_name]
+     */
     static QString constructServerListString(Server &serverData) {
         return serverData.user + "@" + serverData.host + ":" + serverData.port + "/" + serverData.db;
     }
+    /**
+     * @brief loads data about servers from computer storage
+     * @param serverListToFill ref to QList<Server> that you want to fill
+     */
     static void loadServers(QList<Server> &serverListToFill) {
         serverListToFill.clear();
         auto settings_loc = new QSettings("vhundef", "DB_Coursework");
@@ -52,6 +61,11 @@ public:
 
         constructServerSettingsPage();
     }
+
+    /**
+     * @brief Wrapper of loadServers; used for optimization (will not load servers hard drive if they were loaded previously)
+     * @return QList<Server> List of servers
+     */
     QList<Server> getServers() {
         if (!servers.empty()) {
             return servers;
@@ -77,6 +91,10 @@ public:
 
 
 private:
+    /**
+     * @brief overrides default close behavior and add save? dialog
+     * @param event Close event
+     */
     void closeEvent(QCloseEvent *event) override {
         QMessageBox::StandardButton reply;
         QStringList servers_from_list;
@@ -95,6 +113,10 @@ private:
         event->accept();
         QDialog::closeEvent(event);
     }
+
+    /**
+     * @brief removes selected(in Vertical List)  server from list
+     */
     void removeServerFromList() {
         int i = 0;
         for (auto &srv : servers) {
@@ -108,6 +130,9 @@ private:
         removeServer_btn->setDisabled(true);
     }
 
+    /**
+     * @brief gets data from the input fields and adds it to the server list
+     */
     void addServer() {
         Server server;
         server.host = srvHost_inp->text();
@@ -121,12 +146,19 @@ private:
         clearInputFields();
     }
 
+    /**
+     * @brief fills vertical list with elements
+     */
     void fillServerList() {
         for (auto &srv : servers) {
             auto *newServer = new QStandardItem(constructServerListString(srv));
             itemModel->appendRow(newServer);
         }
     }
+
+    /**
+     * @brief saves settings changes to hard drive
+     */
     void saveServerList() const {
         QStringList servers_from_list;
         for (int i = 0; i < itemModel->rowCount(); ++i) {
@@ -145,6 +177,9 @@ private:
         }
         settings->endArray();
     }
+    /**
+     * @brief constructs server settings page
+     */
     void constructServerSettingsPage() {
         srvHost_inp = std::make_unique<QLineEdit>(this);
         srvPort_inp = std::make_unique<QLineEdit>(this);
@@ -243,6 +278,10 @@ private:
         servers_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
     }
 
+    /**
+     * @brief when server selected from Vertical list this function is called to fill input field with it's data
+     * @param index index of the element that will be edited
+     */
     void fillInputFields(const QModelIndex &index) {
         auto srv = getServerFromString(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
         srvHost_inp->setText(srv->host);
@@ -253,6 +292,9 @@ private:
         removeServer_btn->setEnabled(true);
     }
 
+    /**
+     * @brief checks completion of form; enables and disables buttons accordingly
+     */
     void checkFormFill() const {
         if (srvHost_inp->text().isEmpty() ||
             srvPort_inp->text().isEmpty() ||
@@ -274,6 +316,9 @@ private:
         }
     }
 
+    /**
+     * @brief clears all input fields
+     */
     void clearInputFields() const {
         srvHost_inp->clear();
         srvPort_inp->clear();
@@ -282,6 +327,11 @@ private:
         srvDB_inp->clear();
     }
 
+    /**
+     * @brief searches for server by serverString
+     * @param serverString string in format of constructServerString()
+     * @return returns pointer to server
+     */
     Server *getServerFromString(const QString &serverString) {
         for (auto &srv : servers) {
             if (constructServerListString(srv) == serverString) {
