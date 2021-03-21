@@ -159,7 +159,9 @@ private:
     /**
      * @brief saves settings changes to hard drive
      */
-    void saveServerList() const {
+    void saveServerList() {
+        if (settings == nullptr)
+            settings = std::make_unique<QSettings>("vhundef", "DB_Coursework");
         QStringList servers_from_list;
         for (int i = 0; i < itemModel->rowCount(); ++i) {
             servers_from_list << itemModel->index(i, 0).data().toString();
