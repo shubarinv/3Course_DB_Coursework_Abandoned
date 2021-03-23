@@ -77,6 +77,7 @@ private:
             spdlog::error(e.what());
             return nullptr;
         }
+        spdlog::info(std::string("Connected to: ")+connection->username()+"@"+connection->hostname()+":"+connection->port()+"/"+connection->dbname());
         return connection;
     }
 
