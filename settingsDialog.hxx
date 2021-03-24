@@ -17,6 +17,7 @@
 #include <QSettings>
 #include <QStandardItemModel>
 #include <iostream>
+#include <spdlog/spdlog.h>
 struct Server {
     QString host, port, db, user, password;
 };
@@ -152,6 +153,7 @@ private:
      * @brief fills vertical list with elements
      */
     void fillServerList() {
+        itemModel->clear();
         for (auto &srv : servers) {
             auto *newServer = new QStandardItem(constructServerListString(srv));
             itemModel->appendRow(newServer);
@@ -308,18 +310,12 @@ private:
     void fillInputFields() {
         addServer_btn->setVisible(false);
         saveServer_btn->setVisible(true);
-        int i = 0;
-        for (auto &srv : servers) {
-            if (constructServerListString(srv) == itemModel->index(servers_list->currentIndex().row(), 0).data().toString()) {
-                break;
-            }
-            i++;
-        }
-        srvHost_inp->setText(servers[i].host);
-        srvPort_inp->setText(servers[i].port);
-        srvLogin_inp->setText(servers[i].user);
-        srvPass_inp->setText(servers[i].password);
-        srvDB_inp->setText(servers[i].db);
+        auto srv= getServerFromString(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
+        srvHost_inp->setText(srv->host);
+        srvPort_inp->setText(srv->port);
+        srvLogin_inp->setText(srv->user);
+        srvPass_inp->setText(srv->password);
+        srvDB_inp->setText(srv->db);
     }
 
     void enableEditAndRemoveButtons() const {
@@ -378,25 +374,22 @@ private:
     }
 
     void saveServerEdit() {
-        int i = 0;
-        for (auto &srv : servers) {
-            if (constructServerListString(srv) == itemModel->index(servers_list->currentIndex().row(), 0).data().toString()) {
-                break;
-            }
-            i++;
-        }
-
+        auto srv= getServerFromString(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
         addServer_btn->setVisible(true);
         addServer_btn->setDisabled(true);
         saveServer_btn->setVisible(false);
         saveServer_btn->setDisabled(true);
-        servers[i].host=srvHost_inp->text();
-        servers[i].user=srvLogin_inp->text();
-        servers[i].password=srvPass_inp->text();
-        servers[i].db=srvDB_inp->text();
-        servers[i].port=srvPort_inp->text();
+        if(srv== nullptr){
+            spdlog::error("Fascinating... how could this even happen? data in list doesn't correspond to server data in settings! Changes won't be saved");
+            clearInputFields();
+            return;
+        }
+        srv->host=srvHost_inp->text();
+        srv->user=srvLogin_inp->text();
+        srv->password=srvPass_inp->text();
+        srv->db=srvDB_inp->text();
+        srv->port=srvPort_inp->text();
         clearInputFields();
-        itemModel->clear();
         fillServerList();
     }
 };
