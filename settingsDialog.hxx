@@ -218,31 +218,31 @@ private:
         layout->addWidget(addServer_btn.get(), 7, 1, 1, 1);
 
 
-        auto *srvHost_label = new QLabel(this);
+        auto srvHost_label = std::make_unique<QLabel>(this);
         srvHost_label->setText("Host:");
-        auto *srvPort_label = new QLabel(this);
+        auto srvPort_label = std::make_unique<QLabel>(this);
         srvPort_label->setText("Port:");
-        auto *srvLogin_label = new QLabel(this);
+        auto srvLogin_label = std::make_unique<QLabel>(this);
         srvLogin_label->setText("Login:");
-        auto *srvPass_label = new QLabel(this);
+        auto srvPass_label = std::make_unique<QLabel>(this);
         srvPass_label->setText("Password:");
-        auto *srvDB_label = new QLabel(this);
+        auto srvDB_label = std::make_unique<QLabel>(this);
         srvDB_label->setText("Database:");
 
         // inputs and labels
-        layout->addWidget(srvHost_label, 2, 0, 1, 1);
+        layout->addWidget(srvHost_label.get(), 2, 0, 1, 1);
         layout->addWidget(srvHost_inp.get(), 2, 1, 1, 1);
 
-        layout->addWidget(srvPort_label, 3, 0, 1, 1);
+        layout->addWidget(srvPort_label.get(), 3, 0, 1, 1);
         layout->addWidget(srvPort_inp.get(), 3, 1, 1, 1);
 
-        layout->addWidget(srvLogin_label, 4, 0, 1, 1);
+        layout->addWidget(srvLogin_label.get(), 4, 0, 1, 1);
         layout->addWidget(srvLogin_inp.get(), 4, 1, 1, 1);
 
-        layout->addWidget(srvPass_label, 5, 0, 1, 1);
+        layout->addWidget(srvPass_label.get(), 5, 0, 1, 1);
         layout->addWidget(srvPass_inp.get(), 5, 1, 1, 1);
 
-        layout->addWidget(srvDB_label, 6, 0, 1, 1);
+        layout->addWidget(srvDB_label.get(), 6, 0, 1, 1);
         layout->addWidget(srvDB_inp.get(), 6, 1, 1, 1);
 
         // connections
