@@ -84,6 +84,7 @@ public:
     std::unique_ptr<QLineEdit> srvDB_inp{};
 
     std::unique_ptr<QPushButton> addServer_btn{};
+    std::unique_ptr<QPushButton> editServer_btn{};
     std::unique_ptr<QPushButton> removeServer_btn{};
     std::unique_ptr<QPushButton> clearData_btn{};
     std::unique_ptr<QSettings> settings{};
@@ -206,6 +207,11 @@ private:
         clearData_btn->setObjectName("clear-btn");
         clearData_btn->setDisabled(true);
 
+        editServer_btn = std::make_unique<QPushButton>(this);
+        editServer_btn->setText("Edit");
+        editServer_btn->setObjectName("edit-btn");
+        editServer_btn->setDisabled(true);
+
         removeServer_btn = std::make_unique<QPushButton>(this);
         removeServer_btn->setText("Remove");
         removeServer_btn->setObjectName("remove-btn");
@@ -213,7 +219,8 @@ private:
 
         layout = std::make_unique<QGridLayout>(this);
         layout->addWidget(servers_list.get(), 0, 0, 1, 2);
-        layout->addWidget(removeServer_btn.get(), 1, 0, 1, 2);
+        layout->addWidget(editServer_btn.get(), 1, 0, 1, 1);
+        layout->addWidget(removeServer_btn.get(), 1, 1, 1, 1);
         layout->addWidget(clearData_btn.get(), 7, 0, 1, 1);
         layout->addWidget(addServer_btn.get(), 7, 1, 1, 1);
 
