@@ -5,6 +5,7 @@
 #ifndef DB_QT_COURSEWORK_MAINWINDOW_HXX
 #define DB_QT_COURSEWORK_MAINWINDOW_HXX
 
+#include "Functions.hpp"
 #include "settingsDialog.hxx"
 #include <QApplication>
 #include <QMainWindow>
@@ -77,7 +78,7 @@ private:
             spdlog::error(e.what());
             return nullptr;
         }
-        spdlog::info(std::string("Connected to: ")+connection->username()+"@"+connection->hostname()+":"+connection->port()+"/"+connection->dbname());
+        spdlog::info(std::string("Connected to: ") + connection->username() + "@" + connection->hostname() + ":" + connection->port() + "/" + connection->dbname());
         return connection;
     }
 
@@ -95,7 +96,7 @@ private:
     }
 
     static void terminateConnection(std::future<pqxx::connection *> *connection) {
-        if (connection->wait_for(std::chrono::seconds(0)) != std::future_status::ready) {
+        if (!vh::checkIfAsyncTaskFinished(*connection)) {
             spdlog::info("Awaiting connection");
             connection->wait();
         }
