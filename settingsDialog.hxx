@@ -84,6 +84,7 @@ public:
     std::unique_ptr<QLineEdit> srvDB_inp{};
 
     std::unique_ptr<QPushButton> addServer_btn{};
+    std::unique_ptr<QPushButton> saveServer_btn{};
     std::unique_ptr<QPushButton> editServer_btn{};
     std::unique_ptr<QPushButton> removeServer_btn{};
     std::unique_ptr<QPushButton> clearData_btn{};
@@ -202,6 +203,12 @@ private:
         addServer_btn->setObjectName("add-btn");
         addServer_btn->setDisabled(true);
 
+        saveServer_btn = std::make_unique<QPushButton>(this);
+        saveServer_btn->setText("Save");
+        saveServer_btn->setObjectName("add-btn");
+        saveServer_btn->setDisabled(true);
+        saveServer_btn->setVisible(false);
+
         clearData_btn = std::make_unique<QPushButton>(this);
         clearData_btn->setText("Clear");
         clearData_btn->setObjectName("clear-btn");
@@ -209,7 +216,7 @@ private:
 
         editServer_btn = std::make_unique<QPushButton>(this);
         editServer_btn->setText("Edit");
-        editServer_btn->setObjectName("edit-btn");
+        editServer_btn->setObjectName("add-btn");
         editServer_btn->setDisabled(true);
 
         removeServer_btn = std::make_unique<QPushButton>(this);
@@ -223,6 +230,7 @@ private:
         layout->addWidget(removeServer_btn.get(), 1, 1, 1, 1);
         layout->addWidget(clearData_btn.get(), 7, 0, 1, 1);
         layout->addWidget(addServer_btn.get(), 7, 1, 1, 1);
+        layout->addWidget(saveServer_btn.get(), 7, 1, 1, 1);
 
 
         auto *srvHost_label = new QLabel(this);
@@ -256,14 +264,20 @@ private:
         connect(addServer_btn.get(), &QPushButton::clicked, this, [this]() {
             addServer();
         });
+        connect(saveServer_btn.get(), &QPushButton::clicked, this, [this]() {
+            saveServerEdit();
+        });
         connect(removeServer_btn.get(), &QPushButton::clicked, this, [this]() {
             removeServerFromList();
+        });
+        connect(editServer_btn.get(), &QPushButton::clicked, this, [this]() {
+            fillInputFields();
         });
         connect(clearData_btn.get(), &QPushButton::clicked, this, [this]() {
             clearInputFields();
         });
         connect(servers_list.get(), &QListView::clicked, this, [this](const QModelIndex &index) {
-            fillInputFields(index);
+            enableEditAndRemoveButtons();
         });
         connect(srvHost_inp.get(), &QLineEdit::textChanged, this, [this]() {
             checkFormFill();
@@ -291,16 +305,27 @@ private:
      * @brief when server selected from Vertical list this function is called to fill input field with it's data
      * @param index index of the element that will be edited
      */
-    void fillInputFields(const QModelIndex &index) {
-        auto srv = getServerFromString(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
-        srvHost_inp->setText(srv->host);
-        srvPort_inp->setText(srv->port);
-        srvLogin_inp->setText(srv->user);
-        srvPass_inp->setText(srv->password);
-        srvDB_inp->setText(srv->db);
-        removeServer_btn->setEnabled(true);
+    void fillInputFields() {
+        addServer_btn->setVisible(false);
+        saveServer_btn->setVisible(true);
+        int i = 0;
+        for (auto &srv : servers) {
+            if (constructServerListString(srv) == itemModel->index(servers_list->currentIndex().row(), 0).data().toString()) {
+                break;
+            }
+            i++;
+        }
+        srvHost_inp->setText(servers[i].host);
+        srvPort_inp->setText(servers[i].port);
+        srvLogin_inp->setText(servers[i].user);
+        srvPass_inp->setText(servers[i].password);
+        srvDB_inp->setText(servers[i].db);
     }
 
+    void enableEditAndRemoveButtons() const {
+        removeServer_btn->setEnabled(true);
+        editServer_btn->setEnabled(true);
+    }
     /**
      * @brief checks completion of form; enables and disables buttons accordingly
      */
@@ -311,8 +336,10 @@ private:
             srvPass_inp->text().isEmpty() ||
             srvDB_inp->text().isEmpty()) {
             addServer_btn->setDisabled(true);
+            saveServer_btn->setDisabled(true);
         } else {
             addServer_btn->setDisabled(false);
+            saveServer_btn->setDisabled(false);
         }
         if (!srvHost_inp->text().isEmpty() ||
             !srvPort_inp->text().isEmpty() ||
@@ -348,6 +375,29 @@ private:
             }
         }
         return nullptr;
+    }
+
+    void saveServerEdit() {
+        int i = 0;
+        for (auto &srv : servers) {
+            if (constructServerListString(srv) == itemModel->index(servers_list->currentIndex().row(), 0).data().toString()) {
+                break;
+            }
+            i++;
+        }
+
+        addServer_btn->setVisible(true);
+        addServer_btn->setDisabled(true);
+        saveServer_btn->setVisible(false);
+        saveServer_btn->setDisabled(true);
+        servers[i].host=srvHost_inp->text();
+        servers[i].user=srvLogin_inp->text();
+        servers[i].password=srvPass_inp->text();
+        servers[i].db=srvDB_inp->text();
+        servers[i].port=srvPort_inp->text();
+        clearInputFields();
+        itemModel->clear();
+        fillServerList();
     }
 };
 
