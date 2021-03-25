@@ -20,6 +20,16 @@
 #include <spdlog/spdlog.h>
 struct Server {
     QString host, port, db, user, password;
+    bool operator==(const Server &rhs) const {
+        if (this->host == rhs.host &&
+            this->port == rhs.port &&
+            this->user == rhs.user &&
+            this->db == rhs.db &&
+            this->password == this->password) {
+            return true;
+        }
+        return false;
+    }
 };
 
 class SettingsDialog : public QDialog {
@@ -59,8 +69,8 @@ public:
     SettingsDialog() {
         setModal(true);
         setWindowTitle("Settings");
-
         constructServerSettingsPage();
+        servers_initial_values = servers;
     }
 
     /**
@@ -91,7 +101,7 @@ public:
     std::unique_ptr<QPushButton> clearData_btn{};
     std::unique_ptr<QSettings> settings{};
     QList<Server> servers;
-
+    QList<Server> servers_initial_values;
 
 private:
     /**
@@ -99,22 +109,21 @@ private:
      * @param event Close event
      */
     void closeEvent(QCloseEvent *event) override {
-        QMessageBox::StandardButton reply;
-        QStringList servers_from_list;
-        for (int i = 0; i < itemModel->rowCount(); ++i) {
-            servers_from_list << itemModel->index(i, 0).data().toString();
-        }
-        reply = QMessageBox::question(this, "Save changes?", "Save changes to server list?", QMessageBox::Yes | QMessageBox::No);
-        if (reply == QMessageBox::Yes) {
-            saveServerList();
+        if (servers_initial_values == servers) {
             event->accept();
             QDialog::closeEvent(event);
         } else {
-            event->accept();
-            QDialog::closeEvent(event);
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::question(this, "Save changes?", "Save changes to server list?", QMessageBox::Yes | QMessageBox::No);
+            if (reply == QMessageBox::Yes) {
+                saveServerList();
+                event->accept();
+                QDialog::closeEvent(event);
+            } else {
+                event->accept();
+                QDialog::closeEvent(event);
+            }
         }
-        event->accept();
-        QDialog::closeEvent(event);
     }
 
     /**
@@ -311,8 +320,8 @@ private:
     void fillInputFields() {
         addServer_btn->setVisible(false);
         saveServer_btn->setVisible(true);
-        auto srv= getServerFromString(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
-        if(srv== nullptr){
+        auto srv = getServerFromString(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
+        if (srv == nullptr) {
             spdlog::error("Fascinating... how could this even happen? data in list doesn't correspond to server data in settings! Changes won't be saved");
             clearInputFields();
             return;
@@ -383,21 +392,21 @@ private:
     }
 
     void saveServerEdit() {
-        auto srv= getServerFromString(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
+        auto srv = getServerFromString(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
         addServer_btn->setVisible(true);
         addServer_btn->setDisabled(true);
         saveServer_btn->setVisible(false);
         saveServer_btn->setDisabled(true);
-        if(srv== nullptr){
+        if (srv == nullptr) {
             spdlog::error("Fascinating... how could this even happen? data in list doesn't correspond to server data in settings! Changes won't be saved");
             clearInputFields();
             return;
         }
-        srv->host=srvHost_inp->text();
-        srv->user=srvLogin_inp->text();
-        srv->password=srvPass_inp->text();
-        srv->db=srvDB_inp->text();
-        srv->port=srvPort_inp->text();
+        srv->host = srvHost_inp->text();
+        srv->user = srvLogin_inp->text();
+        srv->password = srvPass_inp->text();
+        srv->db = srvDB_inp->text();
+        srv->port = srvPort_inp->text();
         clearInputFields();
         fillServerList();
     }
