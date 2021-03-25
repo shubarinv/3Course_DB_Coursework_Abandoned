@@ -312,6 +312,11 @@ private:
         addServer_btn->setVisible(false);
         saveServer_btn->setVisible(true);
         auto srv= getServerFromString(itemModel->index(servers_list->currentIndex().row(), 0).data().toString());
+        if(srv== nullptr){
+            spdlog::error("Fascinating... how could this even happen? data in list doesn't correspond to server data in settings! Changes won't be saved");
+            clearInputFields();
+            return;
+        }
         srvHost_inp->setText(srv->host);
         srvPort_inp->setText(srv->port);
         srvLogin_inp->setText(srv->user);
@@ -320,8 +325,11 @@ private:
     }
 
     void enableEditAndRemoveButtons() const {
+        clearInputFields();
         removeServer_btn->setEnabled(true);
         editServer_btn->setEnabled(true);
+        saveServer_btn->setVisible(false);
+        addServer_btn->setVisible(true);
     }
     /**
      * @brief checks completion of form; enables and disables buttons accordingly
