@@ -88,17 +88,44 @@ QLineEdit,QListView{
     color: #FFFFFF ;
 }
 QPushButton#add-btn{
-background:#0275d8;padding: 4px 25px 4px 20px;color:#ffffff;
+background:#0062cc;padding: 4px 25px 4px 20px;color:#ffffff;
 }
-QPushButton#remove-btn{
-background:#d9534f;padding: 4px 25px 4px 20px;color:#ffffff;
+QPushButton#add-btn:disabled{
+    background-color: #222222;
+    color: #333333 ;
+    padding: 4px 25px 4px 20px;
 }
 QPushButton#add-btn:pressed{
 background:#0359a3;padding: 4px 25px 4px 20px;color:#ffffff;
 }
+QPushButton#remove-btn{
+background:#d9534f;padding: 4px 25px 4px 20px;color:#ffffff;
+}
+
 QPushButton#remove-btn:pressed{
 background:#b54643;padding: 4px 25px 4px 20px;color:#ffffff;
 }
+QPushButton#remove-btn:disabled{
+    background-color: #222222;
+    color: #333333 ;
+    padding: 4px 25px 4px 20px;
+}
+QPushButton#clear-btn{
+background:#cc9343;padding: 4px 25px 4px 20px;color:#ffffff;
+}
+QPushButton#clear-btn:pressed{
+background:#ad7d39;padding: 4px 25px 4px 20px;color:#ffffff;
+}
+QPushButton#clear-btn:disabled{
+    background-color: #222222;
+    color: #333333 ;
+    padding: 4px 25px 4px 20px;
+}
 
-
+QLabel {
+color: #ffffff;
+}
+QStatusBar{
+background:#434343;color:#ffffff;
+}
 

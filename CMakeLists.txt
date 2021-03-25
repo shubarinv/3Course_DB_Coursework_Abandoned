@@ -9,7 +9,12 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 find_package(Qt5 COMPONENTS Widgets Xml Core REQUIRED)
+find_package(spdlog REQUIRED)
 
-add_executable(${PROJECT_NAME} main.cpp MainWindow.hxx settingsDialog.hxx)
+add_subdirectory(Libs/pqxx)
+include_directories(Libs/pqxx/include)
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Xml Qt5::Core)
+
+add_executable(${PROJECT_NAME} main.cpp MainWindow.hxx settingsDialog.hxx Functions.hpp)
+
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Xml Qt5::Core pqxx spdlog::spdlog)
