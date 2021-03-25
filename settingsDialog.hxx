@@ -18,16 +18,7 @@
 #include <QStandardItemModel>
 #include <iostream>
 #include <spdlog/spdlog.h>
-struct Server {
-    QString host, port, db, user, password;
-    bool operator==(const Server &rhs) const {
-        return (this->host == rhs.host &&
-                this->port == rhs.port &&
-                this->user == rhs.user &&
-                this->db == rhs.db &&
-                this->password == this->password);
-    }
-};
+#include "server_manager.hpp"
 
 class SettingsDialog : public QDialog {
     Q_OBJECT
@@ -41,48 +32,7 @@ public:
         servers_initial_values = servers;
     }
 
-    /**
-     * @brief Constructs string that is used in Server list
-     * @param serverData pointer to Server(instance) that contains data about connection
-     * @return string in format  [user]@[host]:[port]/[database_name]
-     */
-    static QString constructServerListString(Server &serverData) {
-        return serverData.user + "@" + serverData.host + ":" + serverData.port + "/" + serverData.db;
-    }
 
-    /**
-     * @brief loads data about servers from computer storage
-     * @param serverListToFill ref to QList<Server> that you want to fill
-     */
-    static void loadServers(QList<Server> &serverListToFill) {
-        serverListToFill.clear();
-        auto settings_loc = new QSettings("vhundef", "DB_Coursework");
-        int size = settings_loc->beginReadArray("db/servers");
-        for (int i = 0; i < size; ++i) {
-            settings_loc->setArrayIndex(i);
-            Server server;
-            server.host = settings_loc->value("host").toString();
-            server.port = settings_loc->value("port").toString();
-            server.user = settings_loc->value("user").toString();
-            server.password = settings_loc->value("password").toString();
-            server.db = settings_loc->value("db").toString();
-            serverListToFill.push_back(server);
-        }
-        settings_loc->endArray();
-    }
-
-    /**
-     * @brief Wrapper of loadServers; used for optimization (will not load servers hard drive if they were loaded previously)
-     * @return QList<Server> List of servers
-     */
-    QList<Server> getServers() {
-        if (!servers.empty()) {
-            return servers;
-        } else {
-            SettingsDialog::loadServers(servers);
-            return servers;
-        }
-    }
 
 private:
     std::unique_ptr<QGridLayout> layout;
@@ -118,7 +68,7 @@ private:
         setupLayout();
         setupEventConnections();
 
-        getServers();
+       //TODO getServers();
         fillServerList();
     }
 
@@ -250,7 +200,7 @@ private:
     void removeServerFromList() {
         int i = 0;
         for (auto &srv : servers) {
-            if (constructServerListString(srv) == itemModel->index(servers_list->currentIndex().row(), 0).data().toString()) {
+            if (ServerManager::constructServerListString(srv) == itemModel->index(servers_list->currentIndex().row(), 0).data().toString()) {
                 break;
             }
             i++;
@@ -283,7 +233,7 @@ private:
         server.password = srvPass_inp->text();
         server.db = srvDB_inp->text();
         servers.push_back(server);
-        auto *newServer = new QStandardItem(constructServerListString(server));
+        auto *newServer = new QStandardItem(ServerManager::constructServerListString(server));
         itemModel->appendRow(newServer);
         clearInputFields();
     }
@@ -294,7 +244,7 @@ private:
     void fillServerList() {
         itemModel->clear();
         for (auto &srv : servers) {
-            auto *newServer = new QStandardItem(constructServerListString(srv));
+            auto *newServer = new QStandardItem(ServerManager::constructServerListString(srv));
             itemModel->appendRow(newServer);
         }
     }
@@ -381,7 +331,7 @@ private:
      */
     Server *getServerFromString(const QString &serverString) {
         for (auto &srv : servers) {
-            if (constructServerListString(srv) == serverString) {
+            if (ServerManager::constructServerListString(srv) == serverString) {
                 return &srv;
             }
         }
