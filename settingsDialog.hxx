@@ -131,6 +131,7 @@ private:
         servers.removeAt(i);
         itemModel->removeRow(servers_list->currentIndex().row());
         removeServer_btn->setDisabled(true);
+        editServer_btn->setDisabled(true);
     }
 
     /**
