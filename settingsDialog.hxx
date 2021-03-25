@@ -21,14 +21,11 @@
 struct Server {
     QString host, port, db, user, password;
     bool operator==(const Server &rhs) const {
-        if (this->host == rhs.host &&
-            this->port == rhs.port &&
-            this->user == rhs.user &&
-            this->db == rhs.db &&
-            this->password == this->password) {
-            return true;
-        }
-        return false;
+        return (this->host == rhs.host &&
+                this->port == rhs.port &&
+                this->user == rhs.user &&
+                this->db == rhs.db &&
+                this->password == this->password);
     }
 };
 
