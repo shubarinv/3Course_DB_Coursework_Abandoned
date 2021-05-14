@@ -15,6 +15,6 @@ add_subdirectory(Libs/pqxx)
 include_directories(Libs/pqxx/include)
 
 
-add_executable(${PROJECT_NAME} main.cpp MainWindow.hxx settingsDialog.hxx Functions.hpp)
+add_executable(${PROJECT_NAME} main.cpp MainWindow.hxx settingsDialog.hxx Functions.hpp server_manager.hpp)
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Xml Qt5::Core pqxx spdlog::spdlog)
