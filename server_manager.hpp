@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by vhund on 25.03.2021.
 //
@@ -53,6 +55,9 @@ public:
             return servers;
         }
     }
+    QList<Server> &getServersRef() {
+        return servers;
+    }
 
 
     /**
@@ -62,6 +67,13 @@ public:
      */
     static QString constructServerListString(Server &serverData) {
         return serverData.user + "@" + serverData.host + ":" + serverData.port + "/" + serverData.db;
+    }
+
+    void UpdateServerList() {
+        loadServers(servers);
+    }
+    void UpdateServerList(QList<Server> _servers) {
+        servers = std::move(_servers);
     }
 };
 

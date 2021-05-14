@@ -32,8 +32,10 @@ public:
         QMenu *menu = menuBar()->addMenu("File");
         menu->addAction(settings_act);
         menu->addAction(quit_act);
+
         menuBar()->setNativeMenuBar(false);
-        SettingsDialog::loadServers(servers);
+
+        servers = serverManager.getServers();
         connect(settings_act, &QAction::triggered, app, [this]() {
             openSettings();
         });
@@ -56,15 +58,16 @@ public:
 
 private:
     void openSettings() {
-        SettingsDialog settings_win;
+        SettingsDialog settings_win(&serverManager);
         settings_win.exec();
-        servers = settings_win.getServers();
+        servers = serverManager.getServers();
         terminateConnections();
         setupConnections();
     }
 
     QList<Server> servers;
     std::list<std::future<pqxx::connection *>> active_connections;
+    ServerManager serverManager;
 
     static QString constructConnectionString(Server &server) {
         return "host= " + server.host + " user=" + server.user + " port= " + server.port + " dbname= " + server.db + " password= " + server.password + " connect_timeout= 4";
@@ -90,7 +93,7 @@ private:
     void setupConnections() {
         spdlog::info("Begin setting up connections to databases");
         for (auto &srv : servers) {
-            spdlog::info("Trying: " + SettingsDialog::constructServerListString(srv).toStdString());
+            spdlog::info("Trying: " + ServerManager::constructServerListString(srv).toStdString());
             active_connections.push_back(std::async(std::launch::async, tryConnectingToServer, constructConnectionString(srv)));
         }
     }
@@ -104,6 +107,8 @@ private:
         if (connection->get() != nullptr) {
             connection->get()->close();
         }
+    }
+    void drawMainMenu() {
     }
 };
 

@@ -25,13 +25,13 @@ class SettingsDialog : public QDialog {
 
 
 public:
-    SettingsDialog() {
+    explicit SettingsDialog(ServerManager *serverManager) : serverManager(serverManager) {
         setModal(true);
         setWindowTitle("Settings");
         constructServerSettingsPage();
+        servers = serverManager->getServers();
         servers_initial_values = servers;
     }
-
 
 
 private:
@@ -59,6 +59,7 @@ private:
     std::unique_ptr<QSettings> settings{};
     QList<Server> servers;
     QList<Server> servers_initial_values;
+    ServerManager *serverManager;
     /**
      * @brief constructs server settings page
      */
@@ -68,7 +69,7 @@ private:
         setupLayout();
         setupEventConnections();
 
-       //TODO getServers();
+        servers = serverManager->getServers();
         fillServerList();
     }
 
@@ -383,6 +384,7 @@ private:
             i++;
         }
         settings->endArray();
+        serverManager->UpdateServerList(servers);
     }
 };
 
