@@ -25,7 +25,8 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QPair<int, int> screenSize, QApplication *app = nullptr) {
         initLog();
-        setFixedSize(screenSize.first / 2, screenSize.second / 2);
+        resize(screenSize.first / 2, screenSize.second / 2);
+        //  setFixedSize(screenSize.first / 2, screenSize.second / 2);
         auto *quit_act = new QAction(tr("&Quit"), this);
         auto *settings_act = new QAction(tr("&Settings"), this);
 
@@ -36,10 +37,12 @@ public:
         menuBar()->setNativeMenuBar(false);
 
         servers = serverManager.getServers();
+
         connect(settings_act, &QAction::triggered, app, [this]() {
             openSettings();
         });
         connect(quit_act, &QAction::triggered, app, QApplication::quit);
+
         statusBar()->showMessage(tr("Ready"));
         if (servers.isEmpty()) {
             statusBar()->showMessage(tr("No servers defined! Please open settings(FIle->Settings)."));
@@ -47,6 +50,10 @@ public:
             statusBar()->showMessage(tr("Server list loaded; Will now try to connect"));
             setupConnections();
         }
+        mainWidget = new QWidget();
+        setCentralWidget(mainWidget);
+        mainWidget->show();
+        drawMainMenu();
     }
     void terminateConnections() {
         spdlog::info("Terminating active connections");
@@ -68,6 +75,8 @@ private:
     QList<Server> servers;
     std::list<std::future<pqxx::connection *>> active_connections;
     ServerManager serverManager;
+    QWidget *mainWidget{};
+    QGridLayout *gridLayout{};
 
     static QString constructConnectionString(Server &server) {
         return "host= " + server.host + " user=" + server.user + " port= " + server.port + " dbname= " + server.db + " password= " + server.password + " connect_timeout= 4";
@@ -109,6 +118,53 @@ private:
         }
     }
     void drawMainMenu() {
+        clearWidgetsForLayoutSwitch();
+        gridLayout = new QGridLayout();
+
+        //initializing buttons
+        auto suppliers_btn = new QPushButton("Поставщики");
+        auto checkForm_btn = new QPushButton("Формирование чека");
+        auto report_btn = new QPushButton("Отчёт");
+        auto contracts_btn = new QPushButton("Договора");
+        auto merchandise_btn = new QPushButton("Товары");
+        auto shipments_btn = new QPushButton("Поставки");
+        auto help_btn = new QPushButton("Справка");
+
+        // Font size related manipulations
+        auto font = suppliers_btn->font();
+        font.setPixelSize(20);
+
+        // increasing buttons font size
+        suppliers_btn->setFont(font);
+        checkForm_btn->setFont(font);
+        report_btn->setFont(font);
+        contracts_btn->setFont(font);
+        merchandise_btn->setFont(font);
+        shipments_btn->setFont(font);
+        help_btn->setFont(font);
+
+        gridLayout->addWidget(suppliers_btn, 0, 0);
+        gridLayout->addWidget(checkForm_btn, 0, 1);
+        gridLayout->addWidget(report_btn, 0, 2);
+        gridLayout->addWidget(contracts_btn, 1, 0);
+        gridLayout->addWidget(merchandise_btn, 1, 1);
+        gridLayout->addWidget(shipments_btn, 1, 2);
+        gridLayout->addWidget(help_btn, 2, 1);
+
+        mainWidget->setLayout(gridLayout);
+    }
+
+    void clearWidgetsForLayoutSwitch() {
+        while (mainWidget->findChildren<QWidget *>().count() > 0) {
+            delete mainWidget->findChildren<QWidget *>().at(0);
+        }
+        if (mainWidget->layout()) {
+            QLayoutItem *p_item;
+            while ((p_item = mainWidget->layout()->takeAt(0)) != nullptr)
+                delete p_item;
+            delete mainWidget->layout();
+        }
+        gridLayout = {nullptr};
     }
 };
 
