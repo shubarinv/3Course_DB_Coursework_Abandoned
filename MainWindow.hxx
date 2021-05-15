@@ -117,6 +117,10 @@ private:
             spdlog::info("Layout switch: mainMenu->suppliersMenu");
             drawSuppliersMenu();
         });
+        connect(contracts_btn, &QPushButton::clicked, this, [this]() {
+            spdlog::info("Layout switch: mainMenu->contractsMenu");
+            drawContractsMenu();
+        });
     }
     void drawSuppliersMenu() {
         clearWidgetsForLayoutSwitch();
@@ -159,7 +163,47 @@ private:
             drawMainMenu();
         });
     }
+    void drawContractsMenu() {
+        clearWidgetsForLayoutSwitch();
+        gridLayout = new QGridLayout();
+        //initializing buttons
+        auto back_btn = new QPushButton("<-");
+        auto add_btn = new QPushButton("Добавить");
+        auto redact_btn = new QPushButton("Редактировать");
+        auto delete_btn = new QPushButton("Удалить");
 
+        auto table_widget = new QTableWidget(0, 5, this);
+        table_widget->setHorizontalHeaderLabels({"#", "# Номер договора", "Сумма", "Оплата", "Отгрузка"});
+
+
+        add_btn->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        redact_btn->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        delete_btn->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        table_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+        gridLayout->addWidget(back_btn, 0, 0);
+        gridLayout->addWidget(table_widget, 1, 0, 3, 1);
+        gridLayout->addWidget(add_btn, 1, 1);
+        gridLayout->addWidget(redact_btn, 2, 1);
+        gridLayout->addWidget(delete_btn, 3, 1);
+
+        mainWidget->setLayout(gridLayout);
+
+        // Font size related manipulations
+        auto font = back_btn->font();
+        font.setPixelSize(20);
+
+        back_btn->setFont(font);
+        add_btn->setFont(font);
+        redact_btn->setFont(font);
+        delete_btn->setFont(font);
+
+
+        connect(back_btn, &QPushButton::clicked, [this]() {
+            spdlog::info("Layout switch: contractsMenu->mainMenu");
+            drawMainMenu();
+        });
+    }
     void clearWidgetsForLayoutSwitch() {
         while (mainWidget->findChildren<QWidget *>().count() > 0) {
             delete mainWidget->findChildren<QWidget *>().at(0);
