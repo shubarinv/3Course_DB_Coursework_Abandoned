@@ -26,22 +26,10 @@ public:
     explicit MainWindow(QPair<int, int> screenSize, QApplication *app = nullptr) {
         initLog();
         resize(screenSize.first / 2, screenSize.second / 2);
-        //  setFixedSize(screenSize.first / 2, screenSize.second / 2);
-        auto *quit_act = new QAction(tr("&Quit"), this);
-        auto *settings_act = new QAction(tr("&Settings"), this);
 
-        QMenu *menu = menuBar()->addMenu("File");
-        menu->addAction(settings_act);
-        menu->addAction(quit_act);
-
-        menuBar()->setNativeMenuBar(false);
+        setupTopBar(*app);
 
         servers = serverManager.getServers();
-
-        connect(settings_act, &QAction::triggered, app, [this]() {
-            openSettings();
-        });
-        connect(quit_act, &QAction::triggered, app, QApplication::quit);
 
         statusBar()->showMessage(tr("Ready"));
         if (servers.isEmpty()) {
@@ -50,9 +38,9 @@ public:
             statusBar()->showMessage(tr("Server list loaded; Will now try to connect"));
             setupConnections();
         }
-        mainWidget = new QWidget();
-        setCentralWidget(mainWidget);
-        mainWidget->show();
+
+        setupMainWidget();
+
         drawMainMenu();
     }
     void terminateConnections() {
@@ -78,45 +66,7 @@ private:
     QWidget *mainWidget{};
     QGridLayout *gridLayout{};
 
-    static QString constructConnectionString(Server &server) {
-        return "host= " + server.host + " user=" + server.user + " port= " + server.port + " dbname= " + server.db + " password= " + server.password + " connect_timeout= 4";
-    }
 
-    static pqxx::connection *tryConnectingToServer(const QString &connectString) {
-        pqxx::connection *connection{nullptr};
-        try {
-            connection = new pqxx::connection(connectString.toStdString());
-        } catch (const std::exception &e) {
-            spdlog::error(e.what());
-            return nullptr;
-        }
-        spdlog::info(std::string("Connected to: ") + connection->username() + "@" + connection->hostname() + ":" + connection->port() + "/" + connection->dbname());
-        return connection;
-    }
-
-    static void initLog() {
-        // create color multi threaded logger
-        auto console = spdlog::stdout_color_mt("console");
-        auto err_logger = spdlog::stderr_color_mt("stderr");
-    }
-    void setupConnections() {
-        spdlog::info("Begin setting up connections to databases");
-        for (auto &srv : servers) {
-            spdlog::info("Trying: " + ServerManager::constructServerListString(srv).toStdString());
-            active_connections.push_back(std::async(std::launch::async, tryConnectingToServer, constructConnectionString(srv)));
-        }
-    }
-
-    static void terminateConnection(std::future<pqxx::connection *> *connection) {
-        if (!vh::checkIfAsyncTaskFinished(*connection)) {
-            spdlog::info("Awaiting connection");
-            connection->wait();
-        }
-        spdlog::info("closing connection");
-        if (connection->get() != nullptr) {
-            connection->get()->close();
-        }
-    }
     void drawMainMenu() {
         clearWidgetsForLayoutSwitch();
         gridLayout = new QGridLayout();
@@ -165,6 +115,73 @@ private:
             delete mainWidget->layout();
         }
         gridLayout = {nullptr};
+    }
+
+    void setupMainWidget() {
+        mainWidget = new QWidget();
+        setCentralWidget(mainWidget);
+        mainWidget->show();
+    }
+
+    void setupTopBar(QApplication &app) {
+        auto *quit_act = new QAction(tr("&Quit"), this);
+        auto *settings_act = new QAction(tr("&Settings"), this);
+
+        QMenu *menu = menuBar()->addMenu("File");
+
+        // Adding actions to topBar
+        menu->addAction(settings_act);
+        menu->addAction(quit_act);
+
+
+        menuBar()->setNativeMenuBar(false);// fixing messed up menu on MacOS
+
+
+        // setting up button connections
+        connect(settings_act, &QAction::triggered, &app, [this]() {
+            openSettings();
+        });
+        connect(quit_act, &QAction::triggered, &app, QApplication::quit);
+    }
+    static QString constructConnectionString(Server &server) {
+        return "host= " + server.host + " user=" + server.user + " port= " + server.port + " dbname= " + server.db + " password= " + server.password + " connect_timeout= 4";
+    }
+
+    static pqxx::connection *tryConnectingToServer(const QString &connectString) {
+        pqxx::connection *connection{nullptr};
+        try {
+            connection = new pqxx::connection(connectString.toStdString());
+        } catch (const std::exception &e) {
+            spdlog::error(e.what());
+            return nullptr;
+        }
+        spdlog::info(std::string("Connected to: ") + connection->username() + "@" + connection->hostname() + ":" + connection->port() + "/" + connection->dbname());
+        return connection;
+    }
+
+    static void initLog() {
+        // create color multi threaded logger
+        auto console = spdlog::stdout_color_mt("console");
+        auto err_logger = spdlog::stderr_color_mt("stderr");
+    }
+
+    void setupConnections() {
+        spdlog::info("Begin setting up connections to databases");
+        for (auto &srv : servers) {
+            spdlog::info("Trying: " + ServerManager::constructServerListString(srv).toStdString());
+            active_connections.push_back(std::async(std::launch::async, tryConnectingToServer, constructConnectionString(srv)));
+        }
+    }
+
+    static void terminateConnection(std::future<pqxx::connection *> *connection) {
+        if (!vh::checkIfAsyncTaskFinished(*connection)) {
+            spdlog::info("Awaiting connection");
+            connection->wait();
+        }
+        spdlog::info("closing connection");
+        if (connection->get() != nullptr) {
+            connection->get()->close();
+        }
     }
 };
 
