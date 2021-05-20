@@ -6,6 +6,7 @@
 #define DB_QT_COURSEWORK_MAINWINDOW_HXX
 
 #include "Functions.hpp"
+#include "input_dialog.hpp"
 #include "settingsDialog.hxx"
 #include <QApplication>
 #include <QMainWindow>
@@ -158,9 +159,16 @@ private:
         delete_btn->setFont(font);
 
 
-        connect(back_btn, &QPushButton::clicked, [this]() {
+        connect(back_btn, &QPushButton::clicked, this, [this]() {
             spdlog::info("Layout switch: suppliersMenu->mainMenu");
             drawMainMenu();
+        });
+
+        connect(add_btn, &QPushButton::clicked, this, [this]() {
+            InputDialog inputDialog;
+            inputDialog.SetTitle("trst");
+            inputDialog.AddField("Voenmeh? :");
+            inputDialog.exec();
         });
     }
     void drawContractsMenu() {
@@ -204,6 +212,8 @@ private:
             drawMainMenu();
         });
     }
+
+
     void clearWidgetsForLayoutSwitch() {
         while (mainWidget->findChildren<QWidget *>().count() > 0) {
             delete mainWidget->findChildren<QWidget *>().at(0);

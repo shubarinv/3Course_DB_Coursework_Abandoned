@@ -36,7 +36,7 @@ add_subdirectory(Libs/pqxx)
 include_directories(Libs/pqxx/include)
 
 
-add_executable(${PROJECT_NAME} main.cpp MainWindow.hxx settingsDialog.hxx Functions.hpp server_manager.hpp)
+add_executable(${PROJECT_NAME} main.cpp MainWindow.hxx settingsDialog.hxx Functions.hpp server_manager.hpp input_dialog.hpp)
 
 if (TARGET Qt5::windeployqt)
     # execute windeployqt in a tmp directory after build
