@@ -6,6 +6,7 @@
 #define DB_QT_COURSEWORK_MAINWINDOW_HXX
 
 #include "Functions.hpp"
+#include "data_base_manager.hpp"
 #include "input_dialog.hpp"
 #include "settingsDialog.hxx"
 #include <QApplication>
