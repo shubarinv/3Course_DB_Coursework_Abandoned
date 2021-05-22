@@ -176,7 +176,7 @@ private:
 
             inputDialog.exec();
             // by this point we should have gotten the result
-            spdlog::info("suppliersMenu::addSuplierDialog returned following values {");
+            spdlog::info("suppliersMenu::addSupplierDialog returned following values {");
             if (!inputDialog.getResults().empty())
                 for (auto &result : inputDialog.getResults()) {
                     spdlog::info("  {}", result.toUtf8().constData());
