@@ -10,6 +10,7 @@
 #include "input_dialog.hpp"
 #include "settingsDialog.hxx"
 #include <QApplication>
+#include <QHeaderView>
 #include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
@@ -34,24 +35,12 @@ public:
 
         servers = serverManager.getServers();
 
-        statusBar()->showMessage(tr("Ready"));
-        if (servers.isEmpty()) {
-            statusBar()->showMessage(tr("No servers defined! Please open settings(FIle->Settings)."));
-        } else {
-            statusBar()->showMessage(tr("Server list loaded; Will now try to connect"));
-            setupConnections();
-        }
-
         setupMainWidget();
 
-        drawMainMenu();
+        drawConnectionStatusWidget();
     }
     void terminateConnections() {
-        spdlog::info("Terminating active connections");
-        for (auto &connection : active_connections) {
-            auto tmp = std::async(std::launch::async, terminateConnection, &connection);
-        }
-        active_connections.clear();
+        dbManager.EnqueueMessage({message::disconnect});
     }
 
 private:
@@ -60,12 +49,14 @@ private:
         settings_win.exec();
         servers = serverManager.getServers();
         terminateConnections();
-        setupConnections();
+
+        drawConnectionStatusWidget();
     }
 
     QList<Server> servers;
     std::list<std::future<pqxx::connection *>> active_connections;
     ServerManager serverManager;
+    DataBaseManager dbManager;
     QWidget *mainWidget{};
     QGridLayout *gridLayout{};
 
@@ -124,6 +115,7 @@ private:
             drawContractsMenu();
         });
     }
+
     void drawSuppliersMenu() {
         clearWidgetsForLayoutSwitch();
         gridLayout = new QGridLayout();
@@ -185,6 +177,7 @@ private:
             spdlog::info("}");
         });
     }
+
     void drawContractsMenu() {
         clearWidgetsForLayoutSwitch();
         gridLayout = new QGridLayout();
@@ -230,9 +223,78 @@ private:
     void drawConnectionStatusWidget() {
         clearWidgetsForLayoutSwitch();
         gridLayout = new QGridLayout();
-        mainWidget->setLayout(gridLayout);
+
 
         // Todo: cover main menu until connection with servers established
+        // By this point servers have been loaded.
+
+        if (servers.empty()) {// ask user to add servers
+            auto noServersLabel = new QLabel();
+            noServersLabel->setText("No servers defined. Please set them at File->Settings");
+            noServersLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
+
+            auto font = noServersLabel->font();
+            font.setPixelSize(20);
+            noServersLabel->setFont(font);
+
+            gridLayout->addWidget(noServersLabel, 0, 0);
+
+        } else {
+            auto tableWidget = new QTableWidget(0, 2, this);
+            tableWidget->setHorizontalHeaderLabels({"Server", "Status"});
+            tableWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
+            tableWidget->verticalHeader()->hide();
+            tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+            for (auto &srv : servers) {
+                tableWidget->insertRow(tableWidget->rowCount());
+                tableWidget->setItem(tableWidget->rowCount() - 1, 0, new QTableWidgetItem(ServerManager::constructServerListString(srv)));
+
+                if (ServerManager::tryConnectingToServer(srv) != nullptr) {
+                    tableWidget->setItem(tableWidget->rowCount() - 1, 1, new QTableWidgetItem("OK"));
+                } else {
+                    tableWidget->setItem(tableWidget->rowCount() - 1, 1, new QTableWidgetItem("Bad"));
+                }
+            }
+
+            tableWidget->resizeColumnsToContents();
+            tableWidget->resizeRowsToContents();
+
+            auto selectServer_btn = new QPushButton("Use selected server");
+            selectServer_btn->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
+            auto refresh_btn = new QPushButton("Refresh");
+            refresh_btn->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
+
+            auto font = selectServer_btn->font();
+            font.setPixelSize(16);
+            selectServer_btn->setFont(font);
+            refresh_btn->setFont(font);
+
+            gridLayout->addWidget(tableWidget, 0, 0, 1, 2);
+            gridLayout->addWidget(selectServer_btn, 1, 1);
+            gridLayout->addWidget(refresh_btn, 1, 0);
+
+            connect(tableWidget, &QTableWidget::clicked, this, [=, this](const QModelIndex &index) {
+                spdlog::info(tableWidget->item(0, index.row())->text().toUtf8().toStdString());
+                dbManager.EnqueueMessage({message::MessageType::connect, {ServerManager::constructConnectionString(servers[index.row()])}});
+            });
+
+            connect(selectServer_btn, &QPushButton::clicked, this, [=, this]() {
+                spdlog::info("Layout switch: serverSelection->mainMenu");
+                drawMainMenu();
+            });
+
+            connect(refresh_btn, &QPushButton::clicked, [=, this]() {
+                for (int i = 0; i < servers.size(); ++i) {
+                    if (ServerManager::tryConnectingToServer(servers[i]) != nullptr) {
+                        tableWidget->setItem(i, 1, new QTableWidgetItem("OK"));
+                    } else {
+                        tableWidget->setItem(i, 1, new QTableWidgetItem("Bad"));
+                    }
+                }
+            });
+        }
+        mainWidget->setLayout(gridLayout);
     }
 
     void clearWidgetsForLayoutSwitch() {
@@ -274,21 +336,9 @@ private:
         });
         connect(quit_act, &QAction::triggered, &app, QApplication::quit);
     }
-    static QString constructConnectionString(Server &server) {
-        return "host= " + server.host + " user=" + server.user + " port= " + server.port + " dbname= " + server.db + " password= " + server.password + " connect_timeout= 4";
-    }
 
-    static pqxx::connection *tryConnectingToServer(const QString &connectString) {
-        pqxx::connection *connection{nullptr};
-        try {
-            connection = new pqxx::connection(connectString.toStdString());
-        } catch (const std::exception &e) {
-            spdlog::error(e.what());
-            return nullptr;
-        }
-        spdlog::info(std::string("Connected to: ") + connection->username() + "@" + connection->hostname() + ":" + connection->port() + "/" + connection->dbname());
-        return connection;
-    }
+
+    // TODO move everything below to some class
 
     static void initLog() {
         // create color multi threaded logger
@@ -296,23 +346,8 @@ private:
         auto err_logger = spdlog::stderr_color_mt("stderr");
     }
 
-    void setupConnections() {
-        spdlog::info("Begin setting up connections to databases");
-        for (auto &srv : servers) {
-            spdlog::info("Trying: " + ServerManager::constructServerListString(srv).toStdString());
-            active_connections.push_back(std::async(std::launch::async, tryConnectingToServer, constructConnectionString(srv)));
-        }
-    }
-
     static void terminateConnection(std::future<pqxx::connection *> *connection) {
-        if (!vh::checkIfAsyncTaskFinished(*connection)) {
-            spdlog::info("Awaiting connection");
-            connection->wait();
-        }
-        spdlog::info("closing connection");
-        if (connection->get() != nullptr) {
-            connection->get()->close();
-        }
+        return;
     }
 };
 

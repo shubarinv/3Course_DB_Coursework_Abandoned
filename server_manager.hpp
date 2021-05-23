@@ -75,6 +75,25 @@ public:
     void UpdateServerList(QList<Server> _servers) {
         servers = std::move(_servers);
     }
+
+    static QString constructConnectionString(Server &server) {
+        return "host= " + server.host + " user=" + server.user + " port= " + server.port + " dbname= " + server.db + " password= " + server.password + " connect_timeout= 4";
+    }
+
+    static pqxx::connection *tryConnectingToServer(const QString &connectString) {
+        pqxx::connection *connection{nullptr};
+        try {
+            connection = new pqxx::connection(connectString.toStdString());
+        } catch (const std::exception &e) {
+            spdlog::error(e.what());
+            return nullptr;
+        }
+        spdlog::info(std::string("Connected to: ") + connection->username() + "@" + connection->hostname() + ":" + connection->port() + "/" + connection->dbname());
+        return connection;
+    }
+    static pqxx::connection *tryConnectingToServer(Server &server) {
+        return tryConnectingToServer(constructConnectionString(server));
+    }
 };
 
 
