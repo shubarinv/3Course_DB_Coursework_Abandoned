@@ -13,8 +13,10 @@ QPair<int, int> getScreenSize();
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     QApplication::setStyle(QStyleFactory::create("fusion"));
+
+    // Dark mode related
     QPalette darkPalette;
-    darkPalette.setColor(QPalette::Window, QColor(53, 53, 53));
+    darkPalette.setColor(QPalette::Window, QColor(31, 31, 31));
     darkPalette.setColor(QPalette::WindowText, Qt::white);
     darkPalette.setColor(QPalette::Base, QColor(25, 25, 25));
     darkPalette.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
@@ -26,8 +28,8 @@ int main(int argc, char *argv[]) {
     darkPalette.setColor(QPalette::BrightText, Qt::red);
     darkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
 
-    darkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
-    darkPalette.setColor(QPalette::HighlightedText, Qt::black);
+    darkPalette.setColor(QPalette::Highlight, QColor(79, 79, 79));
+    darkPalette.setColor(QPalette::HighlightedText, Qt::white);
 
     QApplication::setPalette(darkPalette);
 
