@@ -40,7 +40,6 @@ public:
         drawConnectionStatusWidget();
     }
     void terminateConnections() {
-        dbManager.EnqueueMessage({message::disconnect});
     }
 
 private:
@@ -224,9 +223,7 @@ private:
         clearWidgetsForLayoutSwitch();
         gridLayout = new QGridLayout();
 
-
-        // Todo: cover main menu until connection with servers established
-        // By this point servers have been loaded.
+        // By this point servers list should have been loaded.
 
         if (servers.empty()) {// ask user to add servers
             auto noServersLabel = new QLabel();
@@ -246,6 +243,7 @@ private:
             tableWidget->verticalHeader()->hide();
             tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
+            // filling table with servers and their status
             for (auto &srv : servers) {
                 tableWidget->insertRow(tableWidget->rowCount());
                 tableWidget->setItem(tableWidget->rowCount() - 1, 0, new QTableWidgetItem(ServerManager::constructServerListString(srv)));
@@ -275,11 +273,22 @@ private:
             gridLayout->addWidget(refresh_btn, 1, 0);
 
             connect(tableWidget, &QTableWidget::clicked, this, [=, this](const QModelIndex &index) {
-                spdlog::info(tableWidget->item(0, index.row())->text().toUtf8().toStdString());
-                dbManager.EnqueueMessage({message::MessageType::connect, {ServerManager::constructConnectionString(servers[index.row()])}});
+                spdlog::info("{}:{}", index.row(), tableWidget->item(index.row(), 0)->text().toUtf8().toStdString());
+                if (tableWidget->item(index.row(), 1)->text() == "Bad") {
+                    tableWidget->clearSelection();
+                    spdlog::info("serverSelection: removed selection from {}: BAD SERVER", tableWidget->item(index.row(), 0)->text().toStdString());
+                    dbManager.setConnection(nullptr);
+                    selectServer_btn->setDisabled(true);
+                } else {
+                    dbManager.setConnection(ServerManager::tryConnectingToServer(servers[index.row()]));
+                    selectServer_btn->setEnabled(true);
+                }
             });
 
             connect(selectServer_btn, &QPushButton::clicked, this, [=, this]() {
+                if (dbManager.connection() == nullptr) {
+                    return;
+                }
                 spdlog::info("Layout switch: serverSelection->mainMenu");
                 drawMainMenu();
             });
